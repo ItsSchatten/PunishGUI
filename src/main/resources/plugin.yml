@@ -1,0 +1,4 @@
+name: ${artifactId}
+version: ${version}
+main: ${properties.main}
+author: ${properties.author}
