@@ -13,7 +13,7 @@ public class Settings extends SimpleConfig {
 
     public static float SOUND_PITCH;
 
-    public static boolean FILL_SPARE_INV_SPACES, USE_RANDOM_SOUND_PITCH, USE_SOUNDS;
+    public static boolean FILL_SPARE_INV_SPACES, USE_RANDOM_SOUND_PITCH, USE_SOUNDS, USE_UPDATER;
 
     @Getter
     @Setter(value = AccessLevel.PRIVATE)
@@ -45,7 +45,7 @@ public class Settings extends SimpleConfig {
         PUNISH_INV_NAME = getString("punish-inv-name");
         FILL_ITEM = getString("fill-item");
         PUNISH_OPEN_SOUND = getString("punish-open-sound");
-        UPDATE_AVALIABLE_SOUND = getString("update-available");
+        UPDATE_AVALIABLE_SOUND = getString("update-available-sound");
 
 
         INV_SIZE = getInt("inv-size");
@@ -54,6 +54,7 @@ public class Settings extends SimpleConfig {
         FILL_SPARE_INV_SPACES = (boolean) get("fill-spare-inv-spaces");
         USE_RANDOM_SOUND_PITCH = (boolean) get("use-random-sound-pitch");
         USE_SOUNDS = (boolean) get("use-sounds");
+        USE_UPDATER = (boolean) get("use-updater");
     }
 
     public void reload() {

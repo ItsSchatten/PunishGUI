@@ -8,7 +8,6 @@ import me.itsshadow.libs.inventories.InventoryUtils;
 import me.itsshadow.punishgui.configs.InventoryConfig;
 import me.itsshadow.punishgui.configs.Settings;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -35,7 +34,7 @@ public class PunishInv implements Listener {
 
     public static void createPunishInv(Player player, Player target, String reason) {
 
-        Inventory inventory= Bukkit.createInventory(null, 54, Utils.colorize(Settings.PUNISH_INV_NAME).replace("{player}", target.getName()));
+        Inventory inventory = Bukkit.createInventory(null, Settings.INV_SIZE, Utils.colorize(Settings.PUNISH_INV_NAME).replace("{player}", target.getName()));
 
         if (Settings.FILL_SPARE_INV_SPACES) {
             InventoryUtils.setSparePanels(inventory, Material.matchMaterial(Settings.FILL_ITEM.toUpperCase()));
@@ -70,7 +69,7 @@ public class PunishInv implements Listener {
 
     @EventHandler
     public void onInvClick(InventoryClickEvent event) {
-        Player player = (Player)event.getWhoClicked();
+        Player player = (Player) event.getWhoClicked();
         Player target = getTarget();
         String reason = getReason();
 

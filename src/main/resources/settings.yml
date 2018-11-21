@@ -41,6 +41,9 @@ use-random-sound-pitch: true
 # The name of the inventory.
 punish-inv-name: "&6You are punishing &e{player}" # You can only use the {player} placeholder here.
 
+# The size of the inventory.
+inv-size:
+
 # Should we set empty panels in the menu to something?
 fill-spare-inv-spaces: true
 
