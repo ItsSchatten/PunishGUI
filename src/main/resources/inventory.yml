@@ -1,17 +1,39 @@
-someitem:
-  where: 2
-  item: GRASS
-  name: Test Item
-  amount: 1
-  glow: false
+########################################################################################
+#   _____                      _                         _____             __ _        #
+#  |_   _|                    | |                       / ____|           / _(_)       #
+#    | |  _ ____   _____ _ __ | |_ ___  _ __ _   _     | |     ___  _ __ | |_ _  __ _  #
+#    | | | '_ \ \ / / _ \ '_ \| __/ _ \| '__| | | |    | |    / _ \| '_ \|  _| |/ _` | #
+#   _| |_| | | \ V /  __/ | | | || (_) | |  | |_| |    | |___| (_) | | | | | | | (_| | #
+#  |_____|_| |_|\_/ \___|_| |_|\__\___/|_|   \__, |     \_____\___/|_| |_|_| |_|\__, | #
+#                                            __/ |                              __/ |  #
+#                                           |___/                              |___/   #
+#                                                                                      #
+########################################################################################
+
+
+# Welcome to the Inventory Config file, your place to edit the entire '/punish' inventory!
+# Below is an example of what it should look like, you can add as many entries as you like,
+# as long as it matches your inventory menu size. (This can be changed in the 'settings.yml')
+# If you have questions about how to use this file, please don't hesitate to PM me (_ItsShadow_)
+# on Spigot or on Discord (ItsSchatten#0013).
+# Here is the 1.13 Material list. https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+
+example: # The name does not matter! It can be anything actually.
+  # Everything below must be the same in yours, if it isn't named the same it will not work.
+  item: DIAMOND_BLOCK # What item should be displayed. (Using 1.13 API)
+  where: 23 # Where in the menu it should appear. (Max is the Max size of your inventory.
+  amount: 1 # How many of the item should appear? (Max is 64.)
+  glow: true # Should we apply a glow effect to the item?
+  name: "&7Permanent Ban" # What should the name of the item be?
+  # If you want a multi-line lore you must use Scalar. (I suggest looking into it.)
   lore:
-  - "Some thing"
-  - 'Another thing'
-anotheritem:
-  where: 3
-  item: GRASS_BLOCK
-  name: Some Other Item
-  amount: 3
-  glow: true
-  lore:
-  - merp
+    - '&eBan Duration &7» &c&lPERMANENT'
+    - ''
+    - "&dSomething else :D"
+
+  # The below could be subject to change, make sure to read the update entry when there
+  # is an available one. (If you have turned this off in the 'settings.yml' ignore this ☺)
+  commands: # What commands should be executed when the item is clicked?
+  - ban {player} {reason}
+  - whisper {sender} Well done!
+  close-on-click: true # Should we close the menu when the user clicks this item?

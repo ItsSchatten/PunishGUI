@@ -33,15 +33,13 @@ public class InventoryConfig extends SimpleConfig {
         new InventoryConfig("inventory.yml");
     }
 
+
     public void reload(){
-        setInstance(null);
 
         new InventoryConfig("inventory.yml");
 
         Utils.log("Reloaded inventory.yml");
-
-        setInstance(this);
-    }
+   }
 
 
 }

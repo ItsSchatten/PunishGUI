@@ -15,8 +15,9 @@ public class PunishGUICommand extends UniversalCommand {
 
     @Override
     protected void run(CommandSender sender, String[] args) {
-        InventoryConfig.getInstance().reloadConfig();
+        InventoryConfig.getInstance().reload();
         Settings.getInstance().reload();
+
         Utils.tell(sender, "merp.");
     }
 }

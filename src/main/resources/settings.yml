@@ -1,1 +1,66 @@
-punish-inv-name: "&6You are punishing &e{player}"
+########################################################################################
+#                                                                                      #
+#                        _____      _   _   _                                          #
+#                       / ____|    | | | | (_)                                         #
+#                      | (___   ___| |_| |_ _ _ __   __ _ ___                          #
+#                       \___ \ / _ \ __| __| | '_ \ / _` / __|                         #
+#                       ____) |  __/ |_| |_| | | | | (_| \__ \                         #
+#                      |_____/ \___|\__|\__|_|_| |_|\__, |___/                         #
+#                                                    __/ |                             #
+#                                                   |___/                              #
+#                                                                                      #
+########################################################################################
+
+# Welcome to the Settings file. In this file you can change many things that are within the plugin.
+# If you have questions about how to use this file, please don't hesitate to PM me (_ItsShadow_)
+# on Spigot or on Discord (ItsSchatten#0013)
+# If you want to change anything that has to due with messages edit the 'messages.yml' file.
+# If you want to add items to the inventory edit the 'inventory.yml' file.
+
+# This config is applicable to auto update entries. If I add another entry to this file it will be applied when you
+# update the plugin. It is recommended that you
+
+
+# Should we use notify administrator (with the permission punishgui.notify.update) when an update is available?
+use-updater: true
+
+# Should we use sounds in the plugin?
+use-sounds: false
+
+# Use random sound pitches?
+use-random-sound-pitch: true
+
+########################################################################################
+#                                                                                      #
+#                                 Inventory Stuffs                                     #
+#                                                                                      #
+# Different Materials                                                                  #
+# https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html                    #
+########################################################################################
+
+# The name of the inventory.
+punish-inv-name: "&6You are punishing &e{player}" # You can only use the {player} placeholder here.
+
+# Should we set empty panels in the menu to something?
+fill-spare-inv-spaces: true
+
+# This only applies if the above is true.
+fill-item: GRAY_STAINED_GLASS_PANE
+
+########################################################################################
+#                                                                                      #
+#                                      Sounds                                          #
+#                                                                                      #
+# Want to use different sounds?                                                        #
+# https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html                       #
+########################################################################################
+
+# Change the pitch of the sound that plays.
+# (This is overridden if use-random-sound-pitch is set to 'true')
+sound-pitch: 1
+
+# The sound that will play when a player runs the command '/punish'
+punish-open-sound: ENTITY_ARROW_HIT_PLAYER
+
+# The sound that will be played to players that can receive the update notifications.
+update-available-sound: ENTITY_EVOKER_CAST_SPELL
