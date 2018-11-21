@@ -13,7 +13,7 @@ public class Settings extends SimpleConfig {
 
     public static float SOUND_PITCH;
 
-    public static boolean FILL_SPARE_INV_SPACES, USE_RANDOM_SOUND_PITCH, USE_SOUNDS, USE_UPDATER;
+    public static boolean FILL_SPARE_INV_SPACES, USE_RANDOM_SOUND_PITCH, USE_SOUNDS, USE_UPDATER, USE_CONVOS;
 
     @Getter
     @Setter(value = AccessLevel.PRIVATE)

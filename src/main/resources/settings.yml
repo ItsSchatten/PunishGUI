@@ -30,6 +30,13 @@ use-sounds: false
 # Use random sound pitches?
 use-random-sound-pitch: true
 
+# Should all commands be executed by console? (Only works if the command works on console.)
+execute-as-console:
+
+# Should we use conversations to get the reason for a punishment?
+# (If this is set to false, it will be on you to add the reason in the commands.)
+use-conversations:
+
 ########################################################################################
 #                                                                                      #
 #                                 Inventory Stuffs                                     #
@@ -42,7 +49,7 @@ use-random-sound-pitch: true
 punish-inv-name: "&6You are punishing &e{player}" # You can only use the {player} placeholder here.
 
 # The size of the inventory.
-inv-size:
+inv-size: 54
 
 # Should we set empty panels in the menu to something?
 fill-spare-inv-spaces: true

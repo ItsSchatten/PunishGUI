@@ -18,15 +18,16 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PunishInv implements Listener {
 
+    private static Set<String> reasonSet = new HashSet<>();
+
     @Getter(value = AccessLevel.PRIVATE)
     @Setter(value = AccessLevel.PRIVATE)
-    private static String reason = null;
-
+    private static String reasonString;
     @Getter(value = AccessLevel.PRIVATE)
     @Setter(value = AccessLevel.PRIVATE)
     private static Player player, target;
@@ -52,7 +53,9 @@ public class PunishInv implements Listener {
             InventoryUtils.createItem(inventory, where, mat, amount, glow, name, lore.stream().map(entry -> Utils.colorize(entry)).collect(Collectors.toList()));
         }
 
-        setReason(reason);
+        reasonSet.add(reason);
+
+        setReasonString(reason);
         setPlayer(player);
         setTarget(target);
 
@@ -71,7 +74,6 @@ public class PunishInv implements Listener {
     public void onInvClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         Player target = getTarget();
-        String reason = getReason();
 
         ItemStack clicked = event.getCurrentItem();
         InventoryType.SlotType slotType = event.getSlotType();
@@ -92,7 +94,7 @@ public class PunishInv implements Listener {
                             player.closeInventory();
                         }
 
-                        commands.forEach(command -> player.performCommand(command.replace("{sender}", player.getName()).replace("{player}", target.getName()).replace("{reason}", reason)));
+                        commands.forEach(command -> player.performCommand(command.replace("{sender}", player.getName()).replace("{player}", target.getName()).replace("{reason}", reasonSet.iterator().next())));
                         return;
                     }
                 }
