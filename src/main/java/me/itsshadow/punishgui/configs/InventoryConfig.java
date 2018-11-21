@@ -3,17 +3,16 @@ package me.itsshadow.punishgui.configs;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import me.itsshadow.libs.Utils;
 import me.itsshadow.libs.configutils.SimpleConfig;
 
-public class Settings extends SimpleConfig {
+public class InventoryConfig extends SimpleConfig {
 
     @Getter
     @Setter(value = AccessLevel.PRIVATE)
-    private static Settings instance;
+    private static InventoryConfig instance;
 
-    public static String PUNISHINV_NAME;
-
-    public Settings(String fileName) {
+    public InventoryConfig(String fileName) {
         super(fileName);
 
         setHeader(new String[]{
@@ -31,18 +30,18 @@ public class Settings extends SimpleConfig {
     }
 
     public static void init() {
-        new Settings("settings.yml").onLoad();
-    }
-
-    private void onLoad() {
-        PUNISHINV_NAME = getString("punish-inv-name");
+        new InventoryConfig("inventory.yml");
     }
 
     public void reload(){
         setInstance(null);
 
-        new Settings("settings.yml").onLoad();
+        new InventoryConfig("inventory.yml");
+
+        Utils.log("Reloaded inventory.yml");
 
         setInstance(this);
     }
+
+
 }

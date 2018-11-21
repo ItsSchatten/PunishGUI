@@ -6,6 +6,8 @@ import lombok.Setter;
 import me.itsshadow.libs.Utils;
 import me.itsshadow.punishgui.commands.PunishCommand;
 import me.itsshadow.punishgui.commands.PunishGUICommand;
+import me.itsshadow.punishgui.configs.InventoryConfig;
+import me.itsshadow.punishgui.configs.Settings;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -38,6 +40,9 @@ public class PunishGUI extends JavaPlugin {
         Utils.registerCommand(new PunishCommand());
         Utils.registerCommand(new PunishGUICommand());
         Utils.log("&7All commands have been initialized..");
+
+        InventoryConfig.init();
+        Settings.init();
 
         Utils.log("",
                 "&9+---------------------------------------------------+ ",

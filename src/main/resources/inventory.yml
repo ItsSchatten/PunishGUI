@@ -1,0 +1,17 @@
+someitem:
+  where: 2
+  item: GRASS
+  name: Test Item
+  amount: 1
+  glow: false
+  lore:
+  - "Some thing"
+  - 'Another thing'
+anotheritem:
+  where: 3
+  item: GRASS_BLOCK
+  name: Some Other Item
+  amount: 3
+  glow: true
+  lore:
+  - merp

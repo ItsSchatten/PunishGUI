@@ -2,3 +2,4 @@ name: ${artifactId}
 version: ${version}
 main: ${main}
 author: ${properties.author}
+api-version: 1.13
