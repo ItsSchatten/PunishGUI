@@ -2,9 +2,12 @@ package me.itsshadow.punishgui.convos;
 
 import me.itsshadow.libs.Utils;
 import me.itsshadow.punishgui.PunishGUI;
+import me.itsshadow.punishgui.configs.InventoryConfig;
+import me.itsshadow.punishgui.inventories.PunishInv;
 import org.bukkit.conversations.*;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.Map;
 
 public class PunishmentConversation {
@@ -23,7 +26,11 @@ public class PunishmentConversation {
                     if (e.gracefulExit()) {
                         Utils.tell(player, "");
 
-                        // Execute commands.
+                        for (String key : InventoryConfig.getInstance().getKeys(false)) {
+                            List<String> commands = InventoryConfig.getInstance().getStringList(key + ".commands");
+
+                            commands.forEach(command -> player.performCommand(command.replace("{sender}", player.getName()).replace("{player}", PunishInv.getTarget().getName()).replace("{reason}", data.get(Reason.REASON).toString())));
+                        }
                     } else
                         Utils.tell(player, "");
                 })
