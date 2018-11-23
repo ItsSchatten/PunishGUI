@@ -34,29 +34,31 @@ public class PunishGUI extends JavaPlugin {
 
     private void register() {
         Utils.log("",
-                "&9+---------------------------------------------------+ ",
-                "&b _____             _     _       &6 _____ _    _ _____",
-                "&b| __ \\           (_)   | |      &6/ ____| |  | |_   _|",
-                "&b| |__) |   _ _ __  _ ___| |__   &6| |  __| |  | | | |",
-                "&b|  ___/ | | | '_ \\| / __| '_ \\  &6| | |_ | |  | | | |",
-                "&b| |   | |_| | | | | \\__ \\ | | | &6| |__| | |__| |_| |_",
-                "&b|_|    \\__,_|_| |_|_|___/_| |_|  &6\\_____|\\____/|_____|",
-
-
+                "&c+---------------------------------------------------+",
+                "&b _____             _     _         &6 _____ _    _ _____",
+                "&b| __  \\           (_)   | |        &6/ ____| |  | |_   _|",
+                "&b| |__) |   _ _ __  _ ___| |__     &6| |  __| |  | | | |",
+                "&b|  ___/ | | | '_ \\| / __| '_ \\    &6| | |_ | |  | | | |",
+                "&b| |   | |_| | | | | \\__ \\ | | |   &6| |__| | |__| |_| |_",
+                "&b|_|    \\__,_|_| |_|_|___/_| |_|    &6\\_____|\\____/|_____|",
                 "");
 
         Utils.registerCommand(new PunishCommand());
         Utils.registerCommand(new PunishGUICommand());
-        Utils.log("&7All commands have been initialized..");
+        Utils.log("&7Commands have been initialized.");
 
         PluginManager pm = this.getServer().getPluginManager();
         pm.registerEvents(new PunishInv(), this);
+        Utils.log("",
+                "&7Events have been initialized.");
 
         InventoryConfig.init();
         Settings.init();
-
         Utils.log("",
-                "&9+---------------------------------------------------+ ",
+                "&7Config files have been initialized.");
+        
+        Utils.log("",
+                "&c+---------------------------------------------------+",
                 "");
     }
 
