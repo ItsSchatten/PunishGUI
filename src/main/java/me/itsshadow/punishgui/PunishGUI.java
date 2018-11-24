@@ -86,7 +86,7 @@ public class PunishGUI extends JavaPlugin {
         }
 
         if (Settings.USE_UPDATER) {
-            new UpdateNotifications(61045) {
+            new UpdateNotifications(62679) {
                 @Override
                 public void onUpdateAvailable() {
                     Utils.log(UpdateNotifications.getUpdateMessage().replace("{currentVer}", PunishGUI.getInstance().getDescription().getVersion())

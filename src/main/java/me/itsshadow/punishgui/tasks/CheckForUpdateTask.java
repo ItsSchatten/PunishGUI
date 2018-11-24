@@ -16,7 +16,7 @@ public class CheckForUpdateTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        new UpdateNotifications(61045) {
+        new UpdateNotifications(62679) {
             @Override
             public void onUpdateAvailable() {
                 if (isUpdateAvailableInside()) {
