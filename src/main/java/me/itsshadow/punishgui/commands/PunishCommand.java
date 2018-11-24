@@ -1,6 +1,7 @@
 package me.itsshadow.punishgui.commands;
 
 import me.itsshadow.libs.commandutils.PlayerCommand;
+import me.itsshadow.punishgui.configs.Messages;
 import me.itsshadow.punishgui.inventories.PunishInv;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -13,18 +14,14 @@ public class PunishCommand extends PlayerCommand {
 
     @Override
     protected void run(Player player, String[] args) {
-        checkPerms(player, "", "punishgui.use");
-        checkArgs(2, "");
+        checkPerms(player, Messages.NO_PERMS.replace("{permission}", "punishgui.use"), "punishgui.use");
+        checkArgs(1, Messages.NOT_ENOUGH_ARGS + "\n" + Messages.PUNISH_HELP);
 
-        Player target = Bukkit.getPlayer(args[0]);
+        Player target = Bukkit.getPlayerExact(args[0]);
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 1; i < args.length; i++) {
-            sb.append(args[i]).append(" ");
-        }
-        String reason = sb.toString();
+        checkNotNull(target, Messages.PLAYER_DOESNT_EXIST.replace("{player}", args[0]));
 
-        PunishInv.createPunishInv(player, target, reason);
-        returnTell("");
+        PunishInv.getInstance().createPunishInv(player, target);
+        return;
     }
 }

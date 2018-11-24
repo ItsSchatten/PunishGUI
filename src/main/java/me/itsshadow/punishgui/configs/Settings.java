@@ -7,13 +7,13 @@ import me.itsshadow.libs.configutils.SimpleConfig;
 
 public class Settings extends SimpleConfig {
 
-    public static String PUNISH_INV_NAME, FILL_ITEM, PUNISH_OPEN_SOUND, UPDATE_AVALIABLE_SOUND;
+    public static String PUNISH_INV_NAME, FILL_ITEM, PUNISH_OPEN_SOUND, UPDATE_AVAILABLE_SOUND, STOP_CONVERSTATION_PHRASE;
 
     public static int INV_SIZE;
 
     public static float SOUND_PITCH;
 
-    public static boolean FILL_SPARE_INV_SPACES, USE_RANDOM_SOUND_PITCH, USE_SOUNDS, USE_UPDATER, USE_CONVOS;
+    public static boolean FILL_SPARE_INV_SPACES, USE_RANDOM_SOUND_PITCH, USE_SOUNDS, USE_UPDATER, USE_CONVOS, PERMISSION_ITEMS, DISALLOW_SHIFTCLICKING;
 
     @Getter
     @Setter(value = AccessLevel.PRIVATE)
@@ -45,7 +45,8 @@ public class Settings extends SimpleConfig {
         PUNISH_INV_NAME = getString("punish-inv-name");
         FILL_ITEM = getString("fill-item");
         PUNISH_OPEN_SOUND = getString("punish-open-sound");
-        UPDATE_AVALIABLE_SOUND = getString("update-available-sound");
+        UPDATE_AVAILABLE_SOUND = getString("update-available-sound");
+        STOP_CONVERSTATION_PHRASE = getString("cancel-convo-phrase");
 
 
         INV_SIZE = getInt("inv-size");
@@ -55,6 +56,9 @@ public class Settings extends SimpleConfig {
         USE_RANDOM_SOUND_PITCH = (boolean) get("use-random-sound-pitch");
         USE_SOUNDS = (boolean) get("use-sounds");
         USE_UPDATER = (boolean) get("use-updater");
+        USE_CONVOS = (boolean) get("use-conversations");
+        PERMISSION_ITEMS = (boolean) get("permission-items");
+        DISALLOW_SHIFTCLICKING = (boolean) get("disallow-shiftclicking");
     }
 
     public void reload() {

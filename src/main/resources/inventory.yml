@@ -30,10 +30,8 @@ example: # The name does not matter! It can be anything actually.
     - '&eBan Duration &7» &c&lPERMANENT'
     - ''
     - "&dSomething else :D"
-
-  # The below could be subject to change, make sure to read the update entry when there
-  # is an available one. (If you have turned this off in the 'settings.yml' ignore this ☺)
   commands: # What commands should be executed when the item is clicked?
-  - ban {player} {reason}
+  - ban {player} {reason} # If 'use-conversations' is false in the 'settings.yml' file the {reason} placeholder will not work.
   - whisper {sender} Well done!
-  close-on-click: true # Should we close the menu when the user clicks this item?
+  permission: 'punishgui.use' # You can set a permission here if only want specific players to be able to use the item.
+  close-on-click: true # Should we close the menu when the player clicks this item?

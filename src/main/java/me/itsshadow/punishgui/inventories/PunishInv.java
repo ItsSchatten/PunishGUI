@@ -6,6 +6,7 @@ import lombok.Setter;
 import me.itsshadow.libs.Utils;
 import me.itsshadow.libs.inventories.InventoryUtils;
 import me.itsshadow.punishgui.configs.InventoryConfig;
+import me.itsshadow.punishgui.configs.Messages;
 import me.itsshadow.punishgui.configs.Settings;
 import me.itsshadow.punishgui.convos.PunishmentConversation;
 import org.bukkit.Bukkit;
@@ -14,29 +15,27 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class PunishInv implements Listener {
 
-    @Getter
-    @Setter(value = AccessLevel.PRIVATE)
-    public static Player player, target;
+    @Getter(value = AccessLevel.PUBLIC)
+    @Setter
+    private static PunishInv instance;
 
-    private static Set<String> reasonSet = new HashSet<>();
+    public Map<String, UUID> targetMap = new HashMap<>(), inConvoMap = new HashMap<>();
 
-    @Getter(value = AccessLevel.PRIVATE)
-    @Setter(value = AccessLevel.PRIVATE)
-    private static String reasonString;
-
-    public static void createPunishInv(Player player, Player target, String reason) {
+    public void createPunishInv(Player player, Player target) {
 
         Inventory inventory = Bukkit.createInventory(null, Settings.INV_SIZE, Utils.colorize(Settings.PUNISH_INV_NAME).replace("{player}", target.getName()));
 
@@ -53,14 +52,24 @@ public class PunishInv implements Listener {
             final String name = Utils.colorize(InventoryConfig.getInstance().getString(key + ".name"));
             final List<String> lore = InventoryConfig.getInstance().getStringList(key + ".lore");
 
-            InventoryUtils.createItem(inventory, where, mat, amount, glow, name, lore.stream().map(entry -> Utils.colorize(entry)).collect(Collectors.toList()));
+            if (Settings.PERMISSION_ITEMS) {
+                if (player.hasPermission(InventoryConfig.getInstance().getString(key + ".permission"))) {
+                    InventoryUtils.createItem(inventory, where, mat, amount, glow, name, lore.stream().map(entry -> Utils.colorize(entry)).collect(Collectors.toList()));
+                }
+            }
         }
 
-        reasonSet.add(reason);
+        if (Settings.USE_CONVOS) {
+            if (inConvoMap.containsValue(player.getUniqueId())) {
+                Utils.tell(player, Messages.ALREADY_IN_CONVO.replace("{cancelphrase}", Settings.STOP_CONVERSTATION_PHRASE));
+                return;
+            }
+        }
 
-        setReasonString(reason);
-        setPlayer(player);
-        setTarget(target);
+
+        targetMap.put(player.getName(), target.getUniqueId());
+        inConvoMap.put(player.getName(), player.getUniqueId());
+
 
         if (Settings.USE_SOUNDS) {
             if (Settings.USE_RANDOM_SOUND_PITCH) {
@@ -76,7 +85,7 @@ public class PunishInv implements Listener {
     @EventHandler
     public void onInvClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        Player target = getTarget();
+        Player target = (Player)Bukkit.getOfflinePlayer(targetMap.get(player.getName()));
 
         ItemStack clicked = event.getCurrentItem();
         InventoryType.SlotType slotType = event.getSlotType();
@@ -87,16 +96,30 @@ public class PunishInv implements Listener {
 
         if (event.getInventory().getName().contains(Utils.colorize(Settings.PUNISH_INV_NAME.replace("{player}", "")))) {
             if (clicked.hasItemMeta()) {
+                event.setCancelled(true);
                 for (String key : InventoryConfig.getInstance().getKeys(false)) {
-                    event.setCancelled(true);
+                    if (Settings.DISALLOW_SHIFTCLICKING) {
+                        if (event.isShiftClick() || event.getClick() == ClickType.SHIFT_LEFT || event.getClick() == ClickType.SHIFT_RIGHT) {
+                            event.setCancelled(true);
+                            return;
+                        }
+                    }
+
                     if (event.getRawSlot() == InventoryConfig.getInstance().getInt(key + ".where") - 1) {
 
                         if (InventoryConfig.getInstance().getBoolean(key + ".close-on-click")) {
                             player.closeInventory();
+
                         }
 
-                        new PunishmentConversation(player);
+                        if (Settings.USE_CONVOS) {
+                            new PunishmentConversation(player);
+                            return;
+                        }
 
+                        List<String> commands = InventoryConfig.getInstance().getStringList(key + ".commands");
+                        commands.forEach(command -> player.performCommand(command.replace("{sender}", player.getName()).replace("{player}", target.getName())));
+                        Utils.tell(player, Messages.PUNISHMENT_SUCCESSFUL.replace("{player}", target.getName()));
                         return;
                     }
                 }
