@@ -22,11 +22,8 @@ public class PunishGUICommand extends UniversalCommand {
 
     @Override
     protected void run(CommandSender sender, String[] args) {
-        checkArgs(1, "");
+        checkArgs(1, Messages.NOT_ENOUGH_ARGS + "\n" +Messages.PUNISHGUI_HELP);
         checkPerms(sender, Messages.NO_PERMS.replace("{permission}", "punishgui.use"), "punishgui.use");
-        if (args.length == 0) {
-            returnTell(Messages.NOT_ENOUGH_ARGS + "\n" + Messages.PUNISHGUI_HELP);
-        }
 
         String param = args[0].toLowerCase();
 

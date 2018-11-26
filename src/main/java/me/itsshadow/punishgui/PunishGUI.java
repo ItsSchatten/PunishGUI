@@ -15,7 +15,6 @@ import me.itsshadow.punishgui.events.PlayerLeaveListener;
 import me.itsshadow.punishgui.inventories.PunishInv;
 import me.itsshadow.punishgui.tasks.CheckForUpdateTask;
 import me.itsshadow.punishgui.tasks.CheckInConvoTask;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
