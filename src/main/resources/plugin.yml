@@ -1,5 +1,5 @@
 name: ${artifactId}
 version: ${version}
 main: ${main}
-author: ${properties.author}
+author: ${author}
 api-version: 1.13

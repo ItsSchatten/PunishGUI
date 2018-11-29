@@ -10,12 +10,17 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class CheckForUpdateTask extends BukkitRunnable {
 
+
+    // This whole class checks every hour if there is an update available.
+
     @Setter
     @Getter
     private static boolean updateAvailableInside = false;
 
     @Override
     public void run() {
+        Utils.log("Checking for update...");
+
         new UpdateNotifications(62679) {
             @Override
             public void onUpdateAvailable() {

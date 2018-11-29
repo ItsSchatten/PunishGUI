@@ -8,6 +8,8 @@ import me.itsshadow.libs.configutils.SimpleConfig;
 
 public class InventoryConfig extends SimpleConfig {
 
+    // See Settings.java
+
     @Getter
     @Setter(value = AccessLevel.PRIVATE)
     private static InventoryConfig instance;

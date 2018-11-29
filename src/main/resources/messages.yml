@@ -36,6 +36,12 @@ player-doesnt-exist: "{prefix} &cThe player, {player}, doesn't exist."
 # This message is sent when the command sender doesn't add enough arguments for the command to run.
 not-enough-arguments: "{prefix} &cPlease add more arguments."
 
+# This message is sent when running '/punishgui resettimer'
+reset-timer-success: "{prefix} &aYou reset the cooldown for '&e{player}&a'."
+
+# This is sent when a player isn't on cooldown.
+reset-timer-failure: "{prefix} &c'&e{player}&c' isn't on cooldown."
+
 # The message that is sent when the punishment is completed!
 punishment-successful: "{prefix} &7The punishment against &e{player}&7 was successful!"
 
@@ -64,6 +70,7 @@ punishgui-help: |-
   &7Required Arguments &a<> &7|| &7Optional Args &6[]
   &c/punishgui &6[&7help&6] &7Shows this help message.
   &c/punishgui reload &6[&7settings|messages|inventory&6] &7Reload all or a specific config.
+  &c/punishgui resettimer &a<&7player&a> &7Reset the timer of a player to execute the /punish command again.
 
 # The message that is sent when using the '/punish help' or '/punish'
 punish-help: |-

@@ -8,11 +8,14 @@ import me.itsshadow.libs.configutils.SimpleConfig;
 
 public class Messages extends SimpleConfig {
 
+    // See Settings.java
+
     @Getter
     @Setter(value = AccessLevel.PRIVATE)
     public static Messages instance;
 
     public static String PREFIX, NO_PERMS, PLAYER_DOESNT_EXIST, NOT_ENOUGH_ARGS,
+            RESET_TIMER_SUCCESS, RESET_TIMER_FAILED,
             PUNISHGUI_HELP, PUNISH_HELP,
             CONVO_PREFIX, REASON_PROMPT, CONVO_CANCELED,
             RELOAD_CONFIGS, RELOAD_CONFIG_SPECIFIC,
@@ -47,6 +50,8 @@ public class Messages extends SimpleConfig {
 
         PLAYER_DOESNT_EXIST = getString("player-doesnt-exist");
         NOT_ENOUGH_ARGS = getString("not-enough-arguments");
+        RESET_TIMER_SUCCESS = getString("reset-timer-success");
+        RESET_TIMER_FAILED = getString("reset-timer-failure");
 
         PUNISHGUI_HELP = getString("punishgui-help");
         PUNISH_HELP = getString("punish-help");

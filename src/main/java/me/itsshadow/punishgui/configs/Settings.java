@@ -7,18 +7,21 @@ import me.itsshadow.libs.configutils.SimpleConfig;
 
 public class Settings extends SimpleConfig {
 
+    // Creates global variables to use throughout the plugin.
     public static String PUNISH_INV_NAME, FILL_ITEM, PUNISH_OPEN_SOUND, UPDATE_AVAILABLE_SOUND, STOP_CONVERSTATION_PHRASE;
 
     public static int INV_SIZE;
 
     public static float SOUND_PITCH;
 
-    public static boolean FILL_SPARE_INV_SPACES, USE_RANDOM_SOUND_PITCH, USE_SOUNDS, USE_UPDATER, USE_CONVOS, PERMISSION_ITEMS, DISALLOW_SHIFTCLICKING;
+    public static boolean CONSOLE, FILL_SPARE_INV_SPACES, USE_RANDOM_SOUND_PITCH, USE_SOUNDS, USE_UPDATER, USE_CONVOS, PERMISSION_ITEMS, DISALLOW_SHIFTCLICKING, USE_CONVO_MAP;
 
+    // Instance stuffs.
     @Getter
     @Setter(value = AccessLevel.PRIVATE)
     private static Settings instance;
 
+    // Settings constructor.
     public Settings(String fileName) {
         super(fileName);
 
@@ -37,10 +40,12 @@ public class Settings extends SimpleConfig {
         setInstance(this);
     }
 
+    // Initialize the plugin.
     public static void init() {
         new Settings("settings.yml").onLoad();
     }
 
+    // Set the global variables to something.
     private void onLoad() {
         PUNISH_INV_NAME = getString("punish-inv-name");
         FILL_ITEM = getString("fill-item");
@@ -57,10 +62,13 @@ public class Settings extends SimpleConfig {
         USE_SOUNDS = (boolean) get("use-sounds");
         USE_UPDATER = (boolean) get("use-updater");
         USE_CONVOS = (boolean) get("use-conversations");
+        USE_CONVO_MAP = (boolean) get("add-to-convo-map");
         PERMISSION_ITEMS = (boolean) get("permission-items");
         DISALLOW_SHIFTCLICKING = (boolean) get("disallow-shiftclicking");
+        CONSOLE = (boolean) get("execute-as-console");
     }
 
+    // The reload method. (While there is one in the config manager this one doesn't reset the config.
     public void reload() {
         setInstance(null);
 

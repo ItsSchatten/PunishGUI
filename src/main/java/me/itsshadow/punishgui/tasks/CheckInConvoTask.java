@@ -7,6 +7,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class CheckInConvoTask extends BukkitRunnable {
 
+
+    // This checks every minute if the player is in the Convo map and if they are and don't have the inventory open it removes them.
     @Override
     public void run() {
         Bukkit.getOnlinePlayers().forEach(player -> {

@@ -31,7 +31,7 @@ use-sounds: false
 use-random-sound-pitch: true
 
 # Should all commands be executed by console? (Only works if the command works on console.)
-execute-as-console:
+execute-as-console: false
 
 # Should we use conversations to get the reason for a punishment?
 # (If this is set to false, it will be on you to add the reason in the commands.)
@@ -46,6 +46,10 @@ permission-items: true
 # By default we disallow shift clicking because when we allowed shift clicking in the menu,
 # I encountered an error that would allow the player to get the item in their inventory when shift clicking items.
 disallow-shiftclicking: true
+
+# Should we add the staff member to a cooldown if they don't finish a punishment?
+# (Only works if you have 'use-conversation' to true.
+add-to-convo-map: true
 
 ########################################################################################
 #                                                                                      #

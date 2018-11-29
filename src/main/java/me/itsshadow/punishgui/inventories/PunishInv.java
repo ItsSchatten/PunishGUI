@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.itsshadow.libs.Utils;
 import me.itsshadow.libs.inventories.InventoryUtils;
+import me.itsshadow.punishgui.PunishGUI;
 import me.itsshadow.punishgui.configs.InventoryConfig;
 import me.itsshadow.punishgui.configs.Messages;
 import me.itsshadow.punishgui.configs.Settings;
@@ -12,6 +13,7 @@ import me.itsshadow.punishgui.convos.PunishmentConversation;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,7 +36,10 @@ public class PunishInv implements Listener {
     private static PunishInv instance;
 
     public Map<String, UUID> targetMap = new HashMap<>(), inConvoMap = new HashMap<>();
+    public Map<String, String> keyMap = new HashMap<>();
 
+
+    // Creates the inventory.
     public void createPunishInv(Player player, Player target) {
 
         Inventory inventory = Bukkit.createInventory(null, Settings.INV_SIZE, Utils.colorize(Settings.PUNISH_INV_NAME).replace("{player}", target.getName()));
@@ -68,7 +73,8 @@ public class PunishInv implements Listener {
 
 
         targetMap.put(player.getName(), target.getUniqueId());
-        inConvoMap.put(player.getName(), player.getUniqueId());
+        if (Settings.USE_CONVO_MAP)
+            inConvoMap.put(player.getName(), player.getUniqueId());
 
 
         if (Settings.USE_SOUNDS) {
@@ -82,10 +88,19 @@ public class PunishInv implements Listener {
         player.openInventory(inventory);
     }
 
+
+    // The listener for the inventory.
     @EventHandler
     public void onInvClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        Player target = (Player)Bukkit.getOfflinePlayer(targetMap.get(player.getName()));
+        Player target;
+
+        if (targetMap.containsKey(player.getName())) {
+            target = (Player) Bukkit.getOfflinePlayer(targetMap.get(player.getName()));
+        } else {
+            target = null;
+            return;
+        }
 
         ItemStack clicked = event.getCurrentItem();
         InventoryType.SlotType slotType = event.getSlotType();
@@ -109,15 +124,25 @@ public class PunishInv implements Listener {
 
                         if (InventoryConfig.getInstance().getBoolean(key + ".close-on-click")) {
                             player.closeInventory();
-
                         }
 
                         if (Settings.USE_CONVOS) {
+                            keyMap.put(player.getName(), key);
                             new PunishmentConversation(player);
                             return;
                         }
 
                         List<String> commands = InventoryConfig.getInstance().getStringList(key + ".commands");
+
+
+                        if (Settings.CONSOLE) {
+                            ConsoleCommandSender console = PunishGUI.getInstance().getServer().getConsoleSender();
+
+                            commands.forEach(command -> Bukkit.getServer().dispatchCommand(console, command.replace("{sender}", player.getName()).replace("{player}", target.getName())));
+                            Utils.tell(player, Messages.PUNISHMENT_SUCCESSFUL.replace("{player}", target.getName()));
+                            return;
+                        }
+
                         commands.forEach(command -> player.performCommand(command.replace("{sender}", player.getName()).replace("{player}", target.getName())));
                         Utils.tell(player, Messages.PUNISHMENT_SUCCESSFUL.replace("{player}", target.getName()));
                         return;

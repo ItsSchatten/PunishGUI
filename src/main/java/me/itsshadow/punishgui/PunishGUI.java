@@ -21,10 +21,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class PunishGUI extends JavaPlugin {
 
+    // The getter and setter for the instance of this class.
     @Getter
     @Setter(value = AccessLevel.PRIVATE)
+    // The instance.
     private static PunishGUI instance;
 
+    // The onEnable method.
     @Override
     public void onEnable() {
         Utils.setInstance(this);
@@ -33,6 +36,7 @@ public class PunishGUI extends JavaPlugin {
         register();
     }
 
+    // The onDisable method.
     @Override
     public void onDisable() {
         Utils.setInstance(null);
@@ -80,7 +84,7 @@ public class PunishGUI extends JavaPlugin {
         Utils.setNoPermsMessage(Messages.NO_PERMS);
         Utils.setUpdateAvailableMessage(Messages.UPDATE_AVAILABLE);
 
-        if (Settings.USE_CONVOS) {
+        if (Settings.USE_CONVOS && Settings.USE_CONVO_MAP) {
             new CheckInConvoTask().runTaskTimerAsynchronously(this, 20, 60 * 20);
         }
 
@@ -97,11 +101,8 @@ public class PunishGUI extends JavaPlugin {
             new CheckForUpdateTask().runTaskTimerAsynchronously(this, 20, 30 * 60 * 20);
         }
 
-
         Utils.log("",
                 "&c+-----------------------------------------------------+",
                 "");
     }
-
-
 }
