@@ -9,7 +9,6 @@ import com.itsschatten.punishgui.configs.Messages;
 import com.itsschatten.punishgui.configs.Settings;
 import com.itsschatten.punishgui.events.InventoryClickListener;
 import com.itsschatten.punishgui.events.PlayerJoinListener;
-import com.itsschatten.punishgui.events.PlayerLeaveListener;
 import com.itsschatten.punishgui.tasks.CheckForUpdateTask;
 import lombok.AccessLevel;
 import lombok.Getter;
