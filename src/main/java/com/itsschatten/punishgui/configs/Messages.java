@@ -1,10 +1,10 @@
-package me.itsshadow.punishgui.configs;
+package com.itsschatten.punishgui.configs;
 
+import com.itsschatten.libs.Utils;
+import com.itsschatten.libs.configutils.SimpleConfig;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import me.itsshadow.libs.Utils;
-import me.itsshadow.libs.configutils.SimpleConfig;
 
 public class Messages extends SimpleConfig {
 
@@ -15,11 +15,9 @@ public class Messages extends SimpleConfig {
     public static Messages instance;
 
     public static String PREFIX, NO_PERMS, PLAYER_DOESNT_EXIST, NOT_ENOUGH_ARGS,
-            RESET_TIMER_SUCCESS, RESET_TIMER_FAILED,
             PUNISHGUI_HELP, PUNISH_HELP,
-            CONVO_PREFIX, REASON_PROMPT, CONVO_CANCELED,
             RELOAD_CONFIGS, RELOAD_CONFIG_SPECIFIC,
-            PUNISHMENT_SUCCESSFUL, ALREADY_IN_CONVO,
+            PUNISHMENT_SUCCESSFUL,
             UPDATE_AVAILABLE;
 
     public Messages(String fileName) {
@@ -34,7 +32,7 @@ public class Messages extends SimpleConfig {
                 " please open " + fileName + " directly to browse the default values.",
                 " Don't know how to do this? You can also check our github",
                 " page for the default file.",
-                "(https://github.com/ItsShadow13/PunishGUI)",
+                "(https://github.com/ItsSchatten/PunishGUI)",
                 "--------------------------------------------------------"});
 
         setInstance(this);
@@ -42,6 +40,8 @@ public class Messages extends SimpleConfig {
 
     public static void init() {
         new Messages("messages.yml").onLoad();
+        Utils.setPrefix(Messages.PREFIX);
+        Utils.setUpdateAvailableMessage(Messages.UPDATE_AVAILABLE);
     }
 
     private void onLoad() {
@@ -50,21 +50,14 @@ public class Messages extends SimpleConfig {
 
         PLAYER_DOESNT_EXIST = getString("player-doesnt-exist");
         NOT_ENOUGH_ARGS = getString("not-enough-arguments");
-        RESET_TIMER_SUCCESS = getString("reset-timer-success");
-        RESET_TIMER_FAILED = getString("reset-timer-failure");
 
         PUNISHGUI_HELP = getString("punishgui-help");
         PUNISH_HELP = getString("punish-help");
-
-        REASON_PROMPT = getString("reason-prompt");
-        CONVO_PREFIX = getString("convo-prefix");
-        CONVO_CANCELED = getString("convo-canceled-message");
 
         RELOAD_CONFIGS = getString("reload-configs");
         RELOAD_CONFIG_SPECIFIC = getString("reload-config-specific");
 
         PUNISHMENT_SUCCESSFUL = getString("punishment-successful");
-        ALREADY_IN_CONVO = getString("already-in-convo");
 
         UPDATE_AVAILABLE = getString("update-available");
     }
@@ -72,13 +65,9 @@ public class Messages extends SimpleConfig {
     public void reload() {
         setInstance(null);
 
-        new Messages("messages.yml").onLoad();
+        init();
 
-        Utils.setPrefix(Messages.PREFIX);
-        Utils.setNoPermsMessage(Messages.NO_PERMS);
-        Utils.setUpdateAvailableMessage(Messages.UPDATE_AVAILABLE);
-
-
+        Utils.debugLog("Reloaded messages.yml");
         setInstance(this);
     }
 

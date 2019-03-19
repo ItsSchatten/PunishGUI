@@ -14,24 +14,45 @@
 # Welcome to the Inventory Config file, your place to edit the entire '/punish' inventory!
 # Below is an example of what it should look like, you can add as many entries as you like,
 # as long as it matches your inventory menu size. (This can be changed in the 'settings.yml')
-# If you have questions about how to use this file, please don't hesitate to PM me (_ItsShadow_)
+# If you have questions about how to use this file, please don't hesitate to PM me (ItsSchatten)
 # on Spigot or on Discord (Schatten#4113).
 # Here is the 1.13 Material list. https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
 
-example: # The name does not matter! It can be anything actually.
-  # Everything below must be the same in yours, if it isn't named the same it will not work.
-  item: DIAMOND_BLOCK # What item should be displayed. (Using 1.13 API)
-  where: 23 # Where in the menu it should appear. (Max is the Max size of your inventory.
-  amount: 1 # How many of the item should appear? (Max is 64.)
-  glow: true # Should we apply a glow effect to the item?
-  name: "&7Permanent Ban" # What should the name of the item be?
-  # If you want a multi-line lore you must use Scalar. (I suggest looking into it.)
+# It should be noted that you can not have an inventory with less than 9 spaces, an inventory of more than 54, or an inventory that contains slots that are not a multiple of nine.
+
+permban:
+  type: COMMAND # There are three types. COMMAND, CONSOLE, and NONE. Command and Console require a section named 'commands' to be a sibling to type.
+  item: DIAMOND_AXE # The item that will appear in the inventory.
+  name: "&cPermanently Ban" # The name of the item. This is not required, but it will set the materials name as the name of the item.
   lore:
-    - '&eBan Duration &7» &c&lPERMANENT'
-    - ''
-    - "&dSomething else :D"
-  commands: # What commands should be executed when the item is clicked?
-  - ban {player} {reason} # If 'use-conversations' is false in the 'settings.yml' file the {reason} placeholder will not work.
-  - whisper {sender} Well done!
-  permission: 'punishgui.use' # You can set a permission here if only want specific players to be able to use the item.
-  close-on-click: true # Should we close the menu when the player clicks this item?
+    - '&7Permanently ban the target.' #  The lore of the item. This is not required, it will set an empty list to the lore however.
+  amount: 1 # This is not required, you can remove this section entirely.
+  where: 12 # Where the item will be loaded into the inventory.
+  commands: # As mentioned above the types of COMMAND or CONSOLE require this to be a sibling to the type entry. You can specify any commands here, as long as the sender has permission to execute the command you should be good.
+    - '[message]&cPlayer {target} has been permanently banned for {reason}.'
+    - 'ban {target} {reason}'
+    # We've added some new things that can be added to commands! You can add [message] to send a message to the opener of the inventory,
+    # or you can add [console] to run a command as console. (This is useful if you need to run multiple different commands to make sure that a punishment is executed properly.
+  permission: '' # This doesn't need to be here, if there is one set you must enable permission items in the 'settings.yml'
+  close-on-click: true # This is required, if true the inventory will be closed when a player clicks on the item, otherwise it won't close. It may close based on what commands are executed however.
+kick:
+  type: CONSOLE # See above.
+  item: IRON_AXE
+  name: "&7Kick"
+  glow: true
+  lore:
+    - '&7Kick the target.'
+  amount: 1
+  where: 14
+  commands:
+    - '[message]&cPlayer {target} has been kicked for {reason}.'
+    - 'kick {target} {reason}'
+  permission: ''
+  close-on-click: true
+none:
+  type: NONE # This is different one! You do not need to add commands to this item, as they won't be ran.
+  item: EMERALD
+  name: "&aHi There!"
+  where: 16
+  permission: ''
+  close-on-click: false

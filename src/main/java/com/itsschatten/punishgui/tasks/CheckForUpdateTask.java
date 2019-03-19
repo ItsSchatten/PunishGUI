@@ -1,17 +1,17 @@
-package me.itsshadow.punishgui.tasks;
+package com.itsschatten.punishgui.tasks;
 
+import com.itsschatten.libs.UpdateNotifications;
+import com.itsschatten.libs.Utils;
+import com.itsschatten.punishgui.PunishGUI;
 import lombok.Getter;
 import lombok.Setter;
-import me.itsshadow.libs.UpdateNotifications;
-import me.itsshadow.libs.Utils;
-import me.itsshadow.punishgui.PunishGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class CheckForUpdateTask extends BukkitRunnable {
 
 
-    // This whole class checks every hour if there is an update available.
+    // This whole class checks every 30 minutes if there is an update available.
 
     @Setter
     @Getter

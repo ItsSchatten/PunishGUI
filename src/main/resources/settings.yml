@@ -18,10 +18,9 @@
 # If you want to add items to the inventory edit the 'inventory.yml' file.
 
 # This config is applicable to auto update entries. If I add another entry to this file it will be applied when you
-# update the plugin. It is recommended that you
+# update the plugin. It is recommended that you backup your file before updating the plugin.
 
-
-# Should we use notify administrator (with the permission punishgui.notify.update) when an update is available?
+# Should we use notify administrator (with the permission punishgui.admin.update) when an update is available?
 use-updater: true
 
 # Should we use sounds in the plugin?
@@ -30,26 +29,15 @@ use-sounds: false
 # Use random sound pitches?
 use-random-sound-pitch: true
 
-# Should all commands be executed by console? (Only works if the command works on console.)
-execute-as-console: false
-
-# Should we use conversations to get the reason for a punishment?
-# (If this is set to false, it will be on you to add the reason in the commands.)
-use-conversations: true
-
-# What should a player type to cancel the punishment conversation?
-cancel-convo-phrase: "stop"
-
-# Should we show the items that the player doesn't have permission to use in the menu?
+# Should restrict access to some items, to people that don't have the permission defined in the 'permission' entry for an item?
 permission-items: true
 
-# By default we disallow shift clicking because when we allowed shift clicking in the menu,
-# I encountered an error that would allow the player to get the item in their inventory when shift clicking items.
-disallow-shiftclicking: true
+# This will print messages to console that are useful to the developer. Unless you want to have many messages in console
+# I don't suggest you enable this.
+debug: false
 
-# Should we add the staff member to a cooldown if they don't finish a punishment?
-# (Only works if you have 'use-conversation' to true.
-add-to-convo-map: true
+# This is how we use
+default-reason: "Something, I can't remember what though."
 
 ########################################################################################
 #                                                                                      #
@@ -59,11 +47,15 @@ add-to-convo-map: true
 # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html                    #
 ########################################################################################
 
-# The name of the inventory.
-punish-inv-name: "&6You are punishing &e{player}" # You can only use the {player} placeholder here.
+# By default we disallow shift clicking because when we allowed shift clicking in the menu,
+# I encountered an error that would allow the player to get the item in their inventory when shift clicking items.
+disallow-shiftclicking: true
 
-# The size of the inventory.
-inv-size: 54
+# The name of the inventory.
+punish-inv-name: "&6You are punishing &e{target}" # You can only use the {target} placeholder here.
+
+# The size of the inventory. This can be a max of 54 and a minimum of 9. All entries have to be a multiple of nine.
+inv-size: 27
 
 # Should we set empty panels in the menu to something?
 fill-spare-inv-spaces: true
@@ -81,6 +73,7 @@ fill-item: GRAY_STAINED_GLASS_PANE
 
 # Change the pitch of the sound that plays.
 # (This is overridden if use-random-sound-pitch is set to 'true')
+# 0 is low, 1 is normal, 2 is high.
 sound-pitch: 1
 
 # The sound that will play when a player runs the command '/punish'

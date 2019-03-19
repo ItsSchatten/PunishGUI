@@ -14,9 +14,7 @@
 # You can use the following placeholders throughout this entire file.
 #
 # {sender} The command senders name, {prefix} The prefix defined in the 'prefix' entry,
-# {player} The target of the command (the second argument). {permission} The permission you need to run the command.
-# {convoprefix} The conversation prefix. {cancelphrase} The phrase you can use to cancel the punishment conversation.
-#
+# {target} The target of the command (the second argument). {permission} The permission you need to run the command.
 
 ########################################################################################
 #                                                                                      #
@@ -30,26 +28,17 @@ prefix: "&cPunishGUI &7\u00bb&f"
 # The message that is sent to the player when they don't have permission to do something.
 no-perms: "{prefix} &cYou don't have permission, you need {permission} to do that!"
 
-# This message is sent when a player doesn't exist.
-player-doesnt-exist: "{prefix} &cThe player, {player}, doesn't exist."
+# This message is sent when a target doesn't exist.
+player-doesnt-exist: "{prefix} &cThe player, {target}, doesn't exist."
 
 # This message is sent when the command sender doesn't add enough arguments for the command to run.
 not-enough-arguments: "{prefix} &cPlease add more arguments."
 
-# This message is sent when running '/punishgui resettimer'
-reset-timer-success: "{prefix} &aYou reset the cooldown for '&e{player}&a'."
-
-# This is sent when a player isn't on cooldown.
-reset-timer-failure: "{prefix} &c'&e{player}&c' isn't on cooldown."
-
 # The message that is sent when the punishment is completed!
-punishment-successful: "{prefix} &7The punishment against &e{player}&7 was successful!"
-
-# This message is sent if a player is already taking care of a punishment and hasn't completed it.
-already-in-convo: "{prefix} &cYou are already punishing a player, please enter {cancelphrase} or enter a reason."
+punishment-successful: "{prefix} &7The punishment against &e{target}&7 was successful!"
 
 # While you can change this, we recommend that you don't.
-update-available: |+
+update-available: |-
   &7+---------------------------------------------------+
   &aThere is an update available for PunishGUI!
   &7To unsure the highest quality of the plugin,
@@ -70,7 +59,6 @@ punishgui-help: |-
   &7Required Arguments &a<> &7|| &7Optional Args &6[]
   &c/punishgui &6[&7help&6] &7Shows this help message.
   &c/punishgui reload &6[&7settings|messages|inventory&6] &7Reload all or a specific config.
-  &c/punishgui resettimer &a<&7player&a> &7Reset the timer of a player to execute the /punish command again.
 
 # The message that is sent when using the '/punish help' or '/punish'
 punish-help: |-
@@ -83,19 +71,3 @@ reload-configs: "{prefix} &7Reloaded all config files."
 
 # This message is sent when you reload the specific file.
 reload-config-specific: "{prefix} &7You reloaded the '&e{reloadedconfig}&7' file. "
-
-########################################################################################
-#                                                                                      #
-#                                Conversation Stuffs                                   #
-#                                                                                      #
-########################################################################################
-
-# The prefix for the conversation.
-convo-prefix: "&e&lPunish &3»&f"
-
-# The message that is sent when the conversation is canceled.
-convo-canceled-message: "&cYou canceled the punishment against '&e{player}&c'."
-
-
-# The prompt that is sent to a player when they start the conversation.
-reason-prompt: "&7Please enter a reason to punish &e{player}&7. To cancel the punishment enter '&e{cancelphrase}&7'."

@@ -1,20 +1,19 @@
-package me.itsshadow.punishgui;
+package com.itsschatten.punishgui;
 
+import com.itsschatten.libs.UpdateNotifications;
+import com.itsschatten.libs.Utils;
+import com.itsschatten.punishgui.commands.PunishCommand;
+import com.itsschatten.punishgui.commands.PunishGUICommand;
+import com.itsschatten.punishgui.configs.InventoryConfig;
+import com.itsschatten.punishgui.configs.Messages;
+import com.itsschatten.punishgui.configs.Settings;
+import com.itsschatten.punishgui.events.InventoryClickListener;
+import com.itsschatten.punishgui.events.PlayerJoinListener;
+import com.itsschatten.punishgui.events.PlayerLeaveListener;
+import com.itsschatten.punishgui.tasks.CheckForUpdateTask;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import me.itsshadow.libs.UpdateNotifications;
-import me.itsshadow.libs.Utils;
-import me.itsshadow.punishgui.commands.PunishCommand;
-import me.itsshadow.punishgui.commands.PunishGUICommand;
-import me.itsshadow.punishgui.configs.InventoryConfig;
-import me.itsshadow.punishgui.configs.Messages;
-import me.itsshadow.punishgui.configs.Settings;
-import me.itsshadow.punishgui.events.PlayerJoinListener;
-import me.itsshadow.punishgui.events.PlayerLeaveListener;
-import me.itsshadow.punishgui.inventories.PunishInv;
-import me.itsshadow.punishgui.tasks.CheckForUpdateTask;
-import me.itsshadow.punishgui.tasks.CheckInConvoTask;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,21 +29,11 @@ public class PunishGUI extends JavaPlugin {
     // The onEnable method.
     @Override
     public void onEnable() {
+        // Sets the instance for the Utils class and the plugin instance.
         Utils.setInstance(this);
         setInstance(this);
 
-        register();
-    }
-
-    // The onDisable method.
-    @Override
-    public void onDisable() {
-        Utils.setInstance(null);
-        setInstance(null);
-    }
-
-    private void register() {
-
+        // Sets the header text when loading the plugin.
         PluginDescriptionFile pdf = this.getDescription();
         String authors = String.join(" ,", pdf.getAuthors());
         Utils.log("",
@@ -60,34 +49,27 @@ public class PunishGUI extends JavaPlugin {
                 "&cDeveloped By &7» " + authors,
                 "");
 
-        Utils.registerCommand(new PunishCommand());
-        Utils.registerCommand(new PunishGUICommand());
-        Utils.log("",
-                "&7Commands have been initialized.");
-
-        PunishInv.setInstance(new PunishInv());
-
-        PluginManager pm = this.getServer().getPluginManager();
-        pm.registerEvents(PunishInv.getInstance(), this);
-        pm.registerEvents(new PlayerJoinListener(), this);
-        pm.registerEvents(new PlayerLeaveListener(), this);
-        Utils.log("",
-                "&7Events have been initialized.");
-
+        // Initializes all configuration files.
         InventoryConfig.init();
         Settings.init();
         Messages.init();
-        Utils.log("",
+        Utils.debugLog(Settings.DEBUG,
                 "&7Config files have been initialized.");
 
-        Utils.setPrefix(Messages.PREFIX);
-        Utils.setNoPermsMessage(Messages.NO_PERMS);
-        Utils.setUpdateAvailableMessage(Messages.UPDATE_AVAILABLE);
+        // Registers commands.
+        Utils.registerCommand(new PunishCommand());
+        Utils.registerCommand(new PunishGUICommand());
+        Utils.debugLog(Settings.DEBUG,
+                "&7Commands have been initialized.");
 
-        if (Settings.USE_CONVOS && Settings.USE_CONVO_MAP) {
-            new CheckInConvoTask().runTaskTimerAsynchronously(this, 20, 60 * 20);
-        }
+        // Registers Events.
+        PluginManager pm = this.getServer().getPluginManager();
+        pm.registerEvents(new InventoryClickListener(), this);
+        pm.registerEvents(new PlayerJoinListener(), this);
+        Utils.debugLog(Settings.DEBUG,
+                "&7Events have been initialized.");
 
+        // Starts the updater, and starts the update task.
         if (Settings.USE_UPDATER) {
             new UpdateNotifications(62679) {
                 @Override
@@ -98,11 +80,17 @@ public class PunishGUI extends JavaPlugin {
                 }
             }.runTaskAsynchronously(this);
 
-            new CheckForUpdateTask().runTaskTimerAsynchronously(this, 20, 30 * 60 * 20);
+            new CheckForUpdateTask().runTaskTimerAsynchronously(this, 30 * 60 * 20, 30 * 60 * 20); // Waits 30 minutes, before running. Then goes again every other 30 mins.
+            Utils.debugLog(Settings.DEBUG, "Registering CheckForUpdateTask.");
         }
 
-        Utils.log("",
-                "&c+-----------------------------------------------------+",
-                "");
+        Utils.log("&c+-----------------------------------------------------+");
+    }
+
+    @Override
+    public void onDisable() {
+        // Sets the instance of the plugin, and the one used in the utils to null.
+        Utils.setInstance(null);
+        setInstance(null);
     }
 }

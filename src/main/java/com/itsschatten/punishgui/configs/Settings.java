@@ -1,20 +1,21 @@
-package me.itsshadow.punishgui.configs;
+package com.itsschatten.punishgui.configs;
 
+import com.itsschatten.libs.Utils;
+import com.itsschatten.libs.configutils.SimpleConfig;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import me.itsshadow.libs.configutils.SimpleConfig;
 
 public class Settings extends SimpleConfig {
 
     // Creates global variables to use throughout the plugin.
-    public static String PUNISH_INV_NAME, FILL_ITEM, PUNISH_OPEN_SOUND, UPDATE_AVAILABLE_SOUND, STOP_CONVERSTATION_PHRASE;
+    public static String PUNISH_INV_NAME, FILL_ITEM, PUNISH_OPEN_SOUND, UPDATE_AVAILABLE_SOUND, DEFAULT_REASON;
 
     public static int INV_SIZE;
 
     public static float SOUND_PITCH;
 
-    public static boolean CONSOLE, FILL_SPARE_INV_SPACES, USE_RANDOM_SOUND_PITCH, USE_SOUNDS, USE_UPDATER, USE_CONVOS, PERMISSION_ITEMS, DISALLOW_SHIFTCLICKING, USE_CONVO_MAP;
+    public static boolean DEBUG, FILL_SPARE_INV_SPACES, USE_RANDOM_SOUND_PITCH, USE_SOUNDS, USE_UPDATER, PERMISSION_ITEMS, DISALLOW_SHIFTCLICKING;
 
     // Instance stuffs.
     @Getter
@@ -34,7 +35,7 @@ public class Settings extends SimpleConfig {
                 " please open " + fileName + " directly to browse the default values.",
                 " Don't know how to do this? You can also check our github",
                 " page for the default file.",
-                "(https://github.com/ItsShadow13/PunishGUI)",
+                "(https://github.com/ItsSchatten/PunishGUI)",
                 "--------------------------------------------------------"});
 
         setInstance(this);
@@ -51,29 +52,26 @@ public class Settings extends SimpleConfig {
         FILL_ITEM = getString("fill-item");
         PUNISH_OPEN_SOUND = getString("punish-open-sound");
         UPDATE_AVAILABLE_SOUND = getString("update-available-sound");
-        STOP_CONVERSTATION_PHRASE = getString("cancel-convo-phrase");
-
+        DEFAULT_REASON = getString("default-reason");
 
         INV_SIZE = getInt("inv-size");
         SOUND_PITCH = getInt("sound-pitch");
+
+        DEBUG = (boolean) get("debug");
 
         FILL_SPARE_INV_SPACES = (boolean) get("fill-spare-inv-spaces");
         USE_RANDOM_SOUND_PITCH = (boolean) get("use-random-sound-pitch");
         USE_SOUNDS = (boolean) get("use-sounds");
         USE_UPDATER = (boolean) get("use-updater");
-        USE_CONVOS = (boolean) get("use-conversations");
-        USE_CONVO_MAP = (boolean) get("add-to-convo-map");
         PERMISSION_ITEMS = (boolean) get("permission-items");
         DISALLOW_SHIFTCLICKING = (boolean) get("disallow-shiftclicking");
-        CONSOLE = (boolean) get("execute-as-console");
     }
 
     // The reload method. (While there is one in the config manager this one doesn't reset the config.
     public void reload() {
         setInstance(null);
+        init();
+        Utils.debugLog("Reloaded settings.yml");
 
-        new Settings("settings.yml").onLoad();
-
-        setInstance(this);
     }
 }

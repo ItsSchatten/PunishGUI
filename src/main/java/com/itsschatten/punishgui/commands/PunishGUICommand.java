@@ -1,14 +1,12 @@
-package me.itsshadow.punishgui.commands;
+package com.itsschatten.punishgui.commands;
 
-import me.itsshadow.libs.commandutils.UniversalCommand;
-import me.itsshadow.punishgui.PunishGUI;
-import me.itsshadow.punishgui.configs.InventoryConfig;
-import me.itsshadow.punishgui.configs.Messages;
-import me.itsshadow.punishgui.configs.Settings;
-import me.itsshadow.punishgui.inventories.PunishInv;
-import org.bukkit.Bukkit;
+import com.itsschatten.libs.commandutils.UniversalCommand;
+import com.itsschatten.punishgui.Perms;
+import com.itsschatten.punishgui.PunishGUI;
+import com.itsschatten.punishgui.configs.InventoryConfig;
+import com.itsschatten.punishgui.configs.Messages;
+import com.itsschatten.punishgui.configs.Settings;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,11 +14,12 @@ import java.util.List;
 
 public class PunishGUICommand extends UniversalCommand {
 
-    List<String> TABCOMPLETE = Arrays.asList("reload", "rl", "version", "ver", "help", "resettimer");
-    List<String> CONFIGS = Arrays.asList("settings", "messages", "inventory");
+    private final List<String> TAB_COMPLETE = Arrays.asList("reload", "rl", "version", "ver", "help", "resettimer");
+    private final List<String> CONFIGS = Arrays.asList("settings", "messages", "inventory");
 
     public PunishGUICommand() {
         super("punishgui");
+        setPermission(Perms.GeneralPermissions.PUNISH_USE.getPermission());
     }
 
 
@@ -29,16 +28,18 @@ public class PunishGUICommand extends UniversalCommand {
     protected void run(CommandSender sender, String[] args) {
 
         // Check args and perms.
-        checkArgs(1, Messages.NOT_ENOUGH_ARGS + "\n" +Messages.PUNISHGUI_HELP);
-        checkPerms(sender, Messages.NO_PERMS.replace("{permission}", "punishgui.use"), "punishgui.use");
+        checkPerms(sender, Perms.GeneralPermissions.PUNISH_USE);
+        checkArgs(1, Messages.NOT_ENOUGH_ARGS + "\n" + Messages.PUNISHGUI_HELP);
+
 
         // Create a String value to switch.
         String param = args[0].toLowerCase();
 
         switch (param) {
-            // The reload argument.
-            case "reload":
-                checkPerms(sender, Messages.NO_PERMS.replace("{permission}", "punishgui.admin.reload"), "punishgui.admin.reload");
+
+            // Reloads the configuration files.
+            case "reload": {
+                checkPerms(sender, Perms.AdminPermissions.PUNISHGUI_RELOAD);
                 if (args.length == 1) {
                     Settings.getInstance().reload();
                     Messages.getInstance().reload();
@@ -65,9 +66,9 @@ public class PunishGUICommand extends UniversalCommand {
                         break;
                 }
                 break;
-
-            case "rl":
-                checkPerms(sender, Messages.NO_PERMS.replace("{permission}", "punishgui.admin.reload"), "punishgui.admin.reload");
+            }
+            case "rl": {
+                checkPerms(sender, Perms.AdminPermissions.PUNISHGUI_RELOAD);
                 if (args.length == 1) {
                     Settings.getInstance().reload();
                     Messages.getInstance().reload();
@@ -75,9 +76,9 @@ public class PunishGUICommand extends UniversalCommand {
                     returnTell(Messages.RELOAD_CONFIGS);
                 }
 
-                String rlparam2 = args[1].toLowerCase();
+                String rlParam2 = args[1].toLowerCase();
 
-                switch (rlparam2) {
+                switch (rlParam2) {
                     case "settings":
                         Settings.getInstance().reload();
                         returnTell(Messages.RELOAD_CONFIG_SPECIFIC.replace("{reloadedconfig}", "settings.yml"));
@@ -96,42 +97,24 @@ public class PunishGUICommand extends UniversalCommand {
                         break;
                 }
                 break;
+            }
 
             // Get the version for the plugin.
-            case "version":
-                checkPerms(sender, Messages.NO_PERMS.replace("{permission}", "punishgui.admin.version"), "punishgui.admin.version");
+            case "version": {
+                checkPerms(sender, Perms.AdminPermissions.PUNISHGUI_VERSION);
                 returnTell("The version of the plugin is " + PunishGUI.getInstance().getDescription().getVersion());
-
-            case "ver":
-                checkPerms(sender, Messages.NO_PERMS.replace("{permission}", "punishgui.admin.version"), "punishgui.admin.version");
+            }
+            case "ver": {
+                checkPerms(sender, Perms.AdminPermissions.PUNISHGUI_VERSION);
                 returnTell("The version of the plugin is " + PunishGUI.getInstance().getDescription().getVersion());
-
-            // If a player is in the Convo map it will remove them.
-            case "resettimer": {
-                checkArgs(2, Messages.NOT_ENOUGH_ARGS + "\n" + Messages.PUNISHGUI_HELP);
-                Player player = Bukkit.getPlayerExact(args[1]);
-                checkNotNull(player, Messages.PLAYER_DOESNT_EXIST);
-
-                if (Settings.USE_CONVO_MAP) {
-                    checkPerms(sender, Messages.NO_PERMS.replace("{permission}", "punishgui.admin.resettimer"), "punishgui.admin.resettimer");
-
-                    if (PunishInv.getInstance().inConvoMap.containsValue(player.getUniqueId())) {
-                        PunishInv.getInstance().inConvoMap.remove(player.getName(), player.getUniqueId());
-
-                        returnTell(Messages.RESET_TIMER_SUCCESS.replace("{player}", player.getName()));
-                    } else {
-                        returnTell(Messages.RESET_TIMER_FAILED.replace("{player}", player.getName()));
-                    }
-                } else {
-                    returnTell(Messages.RESET_TIMER_FAILED.replace("{player}", player.getName()));
-                }
-                break;
             }
 
             // The help message for this command. (/punishgui)
-            case "help":
-               returnTell(Messages.PUNISHGUI_HELP);
+            case "help": {
+                returnTell(Messages.PUNISHGUI_HELP);
+            }
 
+            // End of switch.
             default:
                 break;
         }
@@ -144,8 +127,8 @@ public class PunishGUICommand extends UniversalCommand {
         List<String> tab = new ArrayList<>();
         if (args.length == 1) {
             String arg = args[0].toLowerCase();
-            if (sender.hasPermission("punishgui.use")) {
-                TABCOMPLETE.forEach(complete -> {
+            if (sender.hasPermission(Perms.GeneralPermissions.PUNISH_USE.getPermission())) {
+                TAB_COMPLETE.forEach(complete -> {
                     if (complete.startsWith(arg)) {
                         tab.add(complete);
                     }
@@ -155,7 +138,7 @@ public class PunishGUICommand extends UniversalCommand {
             }
         }
 
-        if (args.length == 2 && args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl") && sender.hasPermission("punishgui.admin.reload")) {
+        if (args.length == 2 && args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl") && sender.hasPermission(Perms.AdminPermissions.PUNISHGUI_RELOAD.getPermission())) {
             List<String> conf = new ArrayList<>();
             CONFIGS.forEach(confs -> {
                 if (confs.startsWith(args[1])) {
@@ -165,17 +148,6 @@ public class PunishGUICommand extends UniversalCommand {
 
             return conf;
         }
-
-        if (args.length == 2 && args[0].equalsIgnoreCase("resettimer") && sender.hasPermission("punishgui.admin.resettimer")) {
-            List<String> players = new ArrayList<>();
-            Bukkit.getOnlinePlayers().forEach(pl -> {
-                if (pl.getName().contains(args[1]))
-                    players.add(pl.getName());
-            });
-
-            return players;
-        }
-
         return null;
     }
 }

@@ -3,3 +3,10 @@ version: ${version}
 main: ${main}
 author: ${author}
 api-version: 1.13
+permissions:
+  punishgui.use:
+    description: The permission to be able to use the command /punish.
+    default: op
+  punishgui.admin.reload:
+    description: The permission needed to run /punishgui reload
+    default: op
