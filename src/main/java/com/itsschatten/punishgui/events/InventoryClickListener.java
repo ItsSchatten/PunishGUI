@@ -64,6 +64,7 @@ public class InventoryClickListener implements Listener {
 
                                 Utils.debugLog(Settings.DEBUG, "Found [message] within a command.");
                                 Utils.tell(opener, command.replace("[message]", "")
+                                        .replace("{prefix}", Messages.PREFIX)
                                         .replace("{target}", PunishInventory.getTargetMap().get(opener.getUniqueId()).getName())
                                         .replace("{sender}", opener.getName())
                                         .replace("{reason}", PunishInventory.getReasonMap().get(opener.getUniqueId())));
@@ -78,7 +79,7 @@ public class InventoryClickListener implements Listener {
                             } else if (invConfig.getString(key + ".type").equalsIgnoreCase("CONSOLE")) {
 
                                 Utils.debugLog(Settings.DEBUG, "Found 'CONSOLE' as type, executing the command as console.");
-                                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command.replace("{targetMap}", PunishInventory.getTargetMap().get(opener.getUniqueId()).getName())
+                                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command.replace("{target}", PunishInventory.getTargetMap().get(opener.getUniqueId()).getName())
                                         .replace("{target}", PunishInventory.getTargetMap().get(opener.getUniqueId()).getName())
                                         .replace("{sender}", opener.getName())
                                         .replace("{reason}", PunishInventory.getReasonMap().get(opener.getUniqueId())));

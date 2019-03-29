@@ -14,7 +14,7 @@ import java.util.List;
 
 public class PunishGUICommand extends UniversalCommand {
 
-    private final List<String> TAB_COMPLETE = Arrays.asList("reload", "rl", "version", "ver", "help", "resettimer");
+    private final List<String> TAB_COMPLETE = Arrays.asList("reload", "rl", "version", "ver", "help");
     private final List<String> CONFIGS = Arrays.asList("settings", "messages", "inventory");
 
     public PunishGUICommand() {

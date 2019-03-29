@@ -23,9 +23,9 @@ public class PunishCommand extends PlayerCommand {
 
         Player target = Bukkit.getPlayerExact(args[0]);
 
-        checkNotNull(target, Messages.PLAYER_DOESNT_EXIST.replace("{targetMap}", args[0]));
+        checkNotNull(target, Messages.PLAYER_DOESNT_EXIST.replace("{target}", args[0]));
 
-        if (args.length != 2) {
+        if (args.length <= 1) {
             Utils.debugLog(Settings.DEBUG, "No reason was set, setting reason to null to be set to the default later.");
             new PunishInventory().loadInv(player, target, null);
             return;
