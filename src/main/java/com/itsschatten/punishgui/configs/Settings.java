@@ -6,6 +6,11 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * This class is for the settings.yml.
+ * It static values, and some methods to initialize and reload the file.
+ */
+
 public class Settings extends SimpleConfig {
 
     // Creates global variables to use throughout the plugin.
@@ -67,11 +72,11 @@ public class Settings extends SimpleConfig {
         DISALLOW_SHIFTCLICKING = (boolean) get("disallow-shiftclicking");
     }
 
-    // The reload method. (While there is one in the config manager this one doesn't reset the config.
+    // The reload method.
     public void reload() {
         setInstance(null);
         init();
-        Utils.debugLog("Reloaded settings.yml");
+        Utils.debugLog(Settings.DEBUG, "Reloaded settings.yml");
 
     }
 }

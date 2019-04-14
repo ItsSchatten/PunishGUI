@@ -6,19 +6,25 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * This is the class for the messages.yml file.
+ *
+ * This class contains the messages for the plugin, and methods to register the values and methods that reload and initialize the file.
+ */
+
 public class Messages extends SimpleConfig {
 
-    // See Settings.java
-
+    // Using lombok we get a getter and a setter for the instance of the class.
     @Getter
     @Setter(value = AccessLevel.PRIVATE)
     public static Messages instance;
 
+    // The message variables that are used throughout the plugin.
     public static String PREFIX, NO_PERMS, PLAYER_DOESNT_EXIST, NOT_ENOUGH_ARGS,
             PUNISHGUI_HELP, PUNISH_HELP,
             RELOAD_CONFIGS, RELOAD_CONFIG_SPECIFIC,
             PUNISHMENT_SUCCESSFUL,
-            UPDATE_AVAILABLE;
+            UPDATE_AVAILABLE, AN_ERROR_OCCURRED;
 
     public Messages(String fileName) {
         super(fileName);
@@ -38,12 +44,14 @@ public class Messages extends SimpleConfig {
         setInstance(this);
     }
 
+    // This initializes the messages variables and sets some necessary messages.
     public static void init() {
         new Messages("messages.yml").onLoad();
         Utils.setPrefix(Messages.PREFIX);
         Utils.setUpdateAvailableMessage(Messages.UPDATE_AVAILABLE);
     }
 
+    // This loads the variables.
     private void onLoad() {
         PREFIX = getString("prefix");
         NO_PERMS = getString("no-perms");
@@ -60,14 +68,17 @@ public class Messages extends SimpleConfig {
         PUNISHMENT_SUCCESSFUL = getString("punishment-successful");
 
         UPDATE_AVAILABLE = getString("update-available");
+        AN_ERROR_OCCURRED = getString("an-error-occurred");
     }
 
+    // This will reload the file, settings the instance first to null then settings the instance
+    // to the new file instance after re-initializing the variables.
     public void reload() {
         setInstance(null);
 
         init();
 
-        Utils.debugLog("Reloaded messages.yml");
+        Utils.debugLog(Settings.DEBUG, "Reloaded messages.yml");
         setInstance(this);
     }
 

@@ -4,9 +4,18 @@ main: ${main}
 author: ${author}
 api-version: 1.13
 permissions:
+
   punishgui.use:
-    description: The permission to be able to use the command /punish.
+    description: "The main permission to be able to use the /punish command."
     default: op
+
   punishgui.admin.reload:
-    description: The permission needed to run /punishgui reload
+    description: "The permission that is required to be able to reload the files."
     default: op
+
+  punishgui.admin.version:
+    description: "The permission that is required to be able to see the version of the plugin."
+    default: op
+
+  punishgui.admin.update:
+    description: "The permission that is required to be able to see when an update is available."

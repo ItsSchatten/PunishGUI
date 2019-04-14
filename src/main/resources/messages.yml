@@ -37,6 +37,11 @@ not-enough-arguments: "{prefix} &cPlease add more arguments."
 # The message that is sent when the punishment is completed!
 punishment-successful: "{prefix} &7The punishment against &e{target}&7 was successful!"
 
+an-error-occurred: |-
+  &cAn error occured while loading the inventory.
+  &cContact an Admin to take a look at the console for more details.
+  &7[&oError reason: {error}&7]
+
 # While you can change this, we recommend that you don't.
 update-available: |-
   &7+---------------------------------------------------+
