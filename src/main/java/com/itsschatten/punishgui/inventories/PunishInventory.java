@@ -98,12 +98,13 @@ public class PunishInventory {
 
             // Sets values that are required for for the item to be set.
             final int where = invConfig.getInt(key + ".where"), amount = !invConfig.getConfigurationSection(key).contains("amount") ? 1 : invConfig.getInt(key + ".amount"); //  We set the where and the amount of items.
-            final Material mat = Material.getMaterial(invConfig.getString(key + ".item")); // We set the material for the item.
+            final Material mat = Material.getMaterial((invConfig.getString(key + ".item").toUpperCase())); // We set the material for the item.
             final boolean glow = invConfig.getConfigurationSection(key).contains("glow") ? invConfig.getBoolean(key + ".glow") : false; // Get if the item should glow or not.
             final String name = !invConfig.getConfigurationSection(key).contains("name") ? "&r" + mat.name() : invConfig.getString(key + ".name"); // Get the name of the item, if not set we set it as material.
             List<String> lore = !invConfig.getConfigurationSection(key).contains("lore") ? new ArrayList<>() : invConfig.getStringList(key + ".lore"); // We get the lore of the item.
             List<String> coloredLore = new ArrayList<>(); // We define a list for lore lines that are colored.
             coloredLore.clear();
+
 
             lore.forEach((line) -> {
                 String lineColored = Utils.colorize(line); // We colorize the line for the lore, and then add it to the List.
