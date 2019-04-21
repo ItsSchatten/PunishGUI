@@ -1,7 +1,9 @@
 ---
 name: Feature request
 about: Suggest something to be added to the plugin.
-labels: 
+title: ''
+labels: suggestions
+assignees: ''
 
 ---
 

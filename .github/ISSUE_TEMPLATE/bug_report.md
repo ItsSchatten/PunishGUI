@@ -1,7 +1,9 @@
 ---
 name: Bug report
 about: " Found a bug? Post it here!"
-labels: 
+title: ''
+labels: bug
+assignees: ''
 
 ---
 
