@@ -1,30 +1,30 @@
 ---
 name: Bug report
-about: " Found a bug? Post it here!"
+about: " Found a bug in the plugin? Choose this template!"
 title: ''
 labels: bug
 assignees: ''
 
 ---
 
-So you've found a bug in my plugin? Alright! Please follow the outline and make sure things are as detailed as possible!
+So you've found a bug in my plugin in my plugin? Alright! Please follow the outline and make sure you provide any relevant information. 
 
-**Describe the bug**
+__Please post screenshots on a site like [Imgur](https://imgur.com/upload) and post config files on a site like [Pastebin](https://pastebin.com/) or some another alternative.__
+
+**Please describe the bug**
 *What is the bug? What do you think the appropriate behavior would be for this feature? (Paste screenshots here)*
 
-**The Stacktrace** 
+**If there is a stacktrace in console, please post that here.** 
 *When an error occurs and you receive the "An internal error has occurred..." message there is some sort of error in console, please copy and past that here.*
 
-**To Reproduce**
+**How to reproduce the error?**
 *What can I do to reproduce the error you have experienced?*
 
-**Spigot Version**
-*What version of spigot/paper/bukkit are you using?*
+**What is your Spigot Version?**
+*What version of Spigot are you using? /ver*
 
-**PunishGUI Version**
-*Please run */punishgui* version in your console or in game and paste it here.*
+**What is the plugins version?**
+*Please run '/punishgui version' in your console or in game and paste it here.*
 
 **Anything else I should know?**
 *Is there something else that I should know before attempting to fix this bug?*
-
-__Please post screenshots on a site like Imgur and post config files on pastebin or some alternative.__
