@@ -41,16 +41,12 @@ public class PunishCommand extends PlayerCommand {
         Utils.debugLog(Settings.DEBUG, "Found a reason! Setting it..."); // We've found the command contains arguments that are larger than 1.
 
         String reason;
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(" ");
         for (int i = 1; i < args.length; i++) { // We build the message using a string builder.
-            if (args[i].equalsIgnoreCase(args[args.length - 1])) { // If the argument is the final in the argument array, only append the message don't add a space.
-                sb.append(args[i]);
-                continue;
-            }
-
-            sb.append(args[i]).append(" ");  // If not the last, append a space.
+            sb.append(args[i]); // If not the last, append a space.
         }
-        reason = sb.toString(); // Set the result of the string builder to the reason string.
+
+        reason = sb.toString().trim(); // Set the result of the string builder to the reason string, and remove any trailing whitespaces.
 
         new PunishInventory().loadInv(player, target, reason); // Open the inventory for the player, and sets the custom reason.
         return;

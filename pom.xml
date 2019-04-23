@@ -6,7 +6,7 @@
 
     <groupId>com.itsschatten.punishgui</groupId>
     <artifactId>PunishGUI</artifactId>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
 
     <description>A customizable solution to a punishment inventory.</description>
 
