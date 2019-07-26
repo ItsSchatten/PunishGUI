@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This class contains all the fancy things that make the inventory work.
@@ -39,8 +40,8 @@ public class InventoryClickListener implements Listener {
         if (slotType == InventoryType.SlotType.OUTSIDE) // If the player clicks outside of the inventory, ignore it.
             return;
 
-        if (event.getClickedInventory().getName().contains(Utils.colorize(Settings.PUNISH_INV_NAME.replace("{target}", "")))) // The name of the clicked inventory is similar to the one defined in the config.
-            if (clicked.hasItemMeta()) { // Make sure that the item has item meta.
+        if (event.getView().getTitle().contains(Utils.colorize(Settings.PUNISH_INV_NAME.replace("{target}", "")))) // The name of the clicked inventory is similar to the one defined in the config.
+            if (Objects.requireNonNull(clicked).hasItemMeta()) { // Make sure that the item has item meta.
                 event.setCancelled(true); // Set the event to canceled so no items can be removed from the inventory.
 
                 if (Settings.DISALLOW_SHIFTCLICKING) // A check to make sure that the items cannot be pulled from the inventory when shift clicking them.

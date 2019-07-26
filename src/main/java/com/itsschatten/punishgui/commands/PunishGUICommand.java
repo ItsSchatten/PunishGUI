@@ -1,5 +1,6 @@
 package com.itsschatten.punishgui.commands;
 
+import com.itsschatten.libs.Utils;
 import com.itsschatten.libs.commandutils.UniversalCommand;
 import com.itsschatten.punishgui.Perms;
 import com.itsschatten.punishgui.PunishGUI;
@@ -23,7 +24,7 @@ public class PunishGUICommand extends UniversalCommand {
     public PunishGUICommand() {
         super("punishgui"); // The command.
         setPermission(Perms.GeneralPermissions.PUNISH_USE.getPermission()); // Check if the player has permission.
-        setPermissionMessage(Perms.GeneralPermissions.PUNISH_USE.getNoPermission().replace("{prefix}", Messages.PREFIX).replace("{permission}", Perms.GeneralPermissions.PUNISH_USE.getPermission())); // Message if not.
+        setPermissionMessage(Utils.getNoPermsMessage().replace("{prefix}", Messages.PREFIX).replace("{permission}", Perms.GeneralPermissions.PUNISH_USE.getPermission())); // Message if not.
     }
 
     @Override

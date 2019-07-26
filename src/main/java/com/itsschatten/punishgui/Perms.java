@@ -1,6 +1,6 @@
 package com.itsschatten.punishgui;
 
-import com.itsschatten.libs.Permissions;
+import com.itsschatten.libs.interfaces.IPermissions;
 import com.itsschatten.punishgui.configs.Messages;
 
 /**
@@ -15,7 +15,7 @@ public class Perms {
     private static final String noPerms = Messages.NO_PERMS;
 
     // The general permissions for staff.
-    public enum GeneralPermissions implements Permissions {
+    public enum GeneralPermissions implements IPermissions {
         PUNISH_USE {
             @Override
             public String getPermission() {
@@ -23,26 +23,16 @@ public class Perms {
                 // This permission is needed to be able to use the punish command.
                 // By default this is given to op players.
             }
-
-            @Override
-            public String getNoPermission() {
-                return noPerms;
-            }
         }
     }
 
-    public enum AdminPermissions implements Permissions {
+    public enum AdminPermissions implements IPermissions {
         PUNISHGUI_RELOAD {
             @Override
             public String getPermission() {
                 return "punishgui.admin.reload";
                 // This permission is needed to be able to reload the files.
                 // By default this is given to op players.
-            }
-
-            @Override
-            public String getNoPermission() {
-                return noPerms;
             }
         },
 
@@ -53,11 +43,6 @@ public class Perms {
                 // This permission is needed to be able to see the version of the plugin.
                 // By default this is given to op players.
             }
-
-            @Override
-            public String getNoPermission() {
-                return noPerms;
-            }
         },
 
         PUNISHGUI_UPDATE_NOTIFICATIONS {
@@ -66,11 +51,6 @@ public class Perms {
                 return "punishgui.admin.update";
                 // This permission is needed to be able to see the update message when there is an update available.
                 // By default this is given to op players.
-            }
-
-            @Override
-            public String getNoPermission() {
-                return noPerms;
             }
         }
     }

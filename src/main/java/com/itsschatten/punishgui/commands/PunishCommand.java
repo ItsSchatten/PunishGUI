@@ -1,7 +1,7 @@
 package com.itsschatten.punishgui.commands;
 
 import com.itsschatten.libs.Utils;
-import com.itsschatten.libs.commandutils.PlayerCommand;
+import com.itsschatten.libs.commandutils.UserCommand;
 import com.itsschatten.punishgui.Perms;
 import com.itsschatten.punishgui.configs.Messages;
 import com.itsschatten.punishgui.configs.Settings;
@@ -14,13 +14,12 @@ import org.bukkit.entity.Player;
  * Staff members that have permission to use the command will be able to open the inventory.
  * You can set a custom reason by running the command like so: <code>/punish (PLAYERNAME) (Reason)</code>
  */
-public class PunishCommand extends PlayerCommand {
+public class PunishCommand extends UserCommand {
 
     public PunishCommand() {
         super("punish"); // The command name.
         setPermission(Perms.GeneralPermissions.PUNISH_USE.getPermission()); // We set the permission that is needed for the player to run the command.
-        setPermissionMessage(Perms.GeneralPermissions.
-                PUNISH_USE.getNoPermission().replace("{prefix}", Messages.PREFIX).replace("{permission}", Perms.GeneralPermissions.PUNISH_USE.getPermission())); // If player doesn't have perms, the message sent.
+        setPermissionMessage(Utils.getNoPermsMessage().replace("{prefix}", Messages.PREFIX).replace("{permission}", Perms.GeneralPermissions.PUNISH_USE.getPermission())); // If player doesn't have perms, the message sent.
     }
 
     @Override

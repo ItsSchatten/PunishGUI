@@ -49,6 +49,7 @@ public class Messages extends SimpleConfig {
         new Messages("messages.yml").onLoad();
         Utils.setPrefix(Messages.PREFIX);
         Utils.setUpdateAvailableMessage(Messages.UPDATE_AVAILABLE);
+        Utils.setNoPermsMessage(NO_PERMS);
     }
 
     // This loads the variables.
