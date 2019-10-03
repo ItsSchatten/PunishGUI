@@ -36,6 +36,9 @@ permission-items: true
 # I don't suggest you enable this.
 debug: false
 
+# If enabled the plugin will send statistics to BStats. Which you can see here: https://bstats.org/plugin/bukkit/PunishGUI
+metrics: true
+
 # This is what we use when the command isn't passed a reason.
 default-reason: "Something, I can't remember what though."
 

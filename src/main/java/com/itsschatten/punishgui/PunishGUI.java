@@ -13,6 +13,7 @@ import com.itsschatten.punishgui.tasks.CheckForUpdateTask;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -67,6 +68,11 @@ public class PunishGUI extends JavaPlugin {
         pm.registerEvents(new PlayerJoinListener(), this);
         Utils.debugLog(Settings.DEBUG,
                 "&7Events have been initialized.");
+
+        if (Settings.USE_METRICS) {
+            Utils.log("&7Metrics are enabled! You can see the information collect at the following link: &chttps://bstats.org/plugin/bukkit/PunishGUI&7", "If you don't wish for this information to be collected you can disable it in the settings.yml.");
+            Metrics mets = new Metrics(this);
+        }
 
         // Starts the updater, and starts the update task.
         if (Settings.USE_UPDATER) {
