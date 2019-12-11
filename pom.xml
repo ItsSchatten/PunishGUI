@@ -6,7 +6,7 @@
 
     <groupId>com.itsschatten.punishgui</groupId>
     <artifactId>PunishGUI</artifactId>
-    <version>1.0.11</version>
+    <version>1.1.0</version>
 
     <description>A customizable solution to a punishment inventory.</description>
 
@@ -24,9 +24,10 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+
         <repository>
             <id>shadowlibs-repo</id>
-            <url>https://itsschatten.com/repositories/repos/shadowlibs/com/itsschatten/libs/ShadowLibs/1.0/</url>
+            <url>https://itsschatten.com/repositories/repos/shadowlibs/com/itsschatten/libs/</url>
         </repository>
 
         <repository>
@@ -45,13 +46,13 @@
         <dependency>
             <groupId>com.itsschatten.libs</groupId>
             <artifactId>ShadowLibs</artifactId>
-            <version>1.2</version>
+            <version>1.3</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.14.4-R0.1-SNAPSHOT</version>
+            <version>1.15-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
