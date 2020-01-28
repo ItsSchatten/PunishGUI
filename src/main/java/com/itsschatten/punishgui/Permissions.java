@@ -9,7 +9,7 @@ import com.itsschatten.punishgui.configs.Messages;
  * All permissions are also listed in the plugin.yml for ease of use for the average chum.
  *
  */
-public class Perms {
+public class Permissions {
 
     // Sets a staic value for the noPerms message to reduce redundant code.
     private static final String noPerms = Messages.NO_PERMS;

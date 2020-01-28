@@ -6,15 +6,16 @@
 
     <groupId>com.itsschatten.punishgui</groupId>
     <artifactId>PunishGUI</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 
     <description>A customizable solution to a punishment inventory.</description>
 
     <properties>
 
         <author>ItsSchatten</author>
-        <main>${groupId}.PunishGUI</main>
+        <main>${project.groupId}.PunishGUI</main>
 
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -52,13 +53,13 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.15-R0.1-SNAPSHOT</version>
+            <version>1.15.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.2</version>
+            <version>1.18.10</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

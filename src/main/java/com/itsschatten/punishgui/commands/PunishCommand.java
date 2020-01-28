@@ -2,7 +2,7 @@ package com.itsschatten.punishgui.commands;
 
 import com.itsschatten.libs.Utils;
 import com.itsschatten.libs.commandutils.UserCommand;
-import com.itsschatten.punishgui.Perms;
+import com.itsschatten.punishgui.Permissions;
 import com.itsschatten.punishgui.configs.Messages;
 import com.itsschatten.punishgui.configs.Settings;
 import com.itsschatten.punishgui.inventories.PunishInventory;
@@ -18,13 +18,13 @@ public class PunishCommand extends UserCommand {
 
     public PunishCommand() {
         super("punish"); // The command name.
-        setPermission(Perms.GeneralPermissions.PUNISH_USE.getPermission()); // We set the permission that is needed for the player to run the command.
-        setPermissionMessage(Utils.getNoPermsMessage().replace("{prefix}", Messages.PREFIX).replace("{permission}", Perms.GeneralPermissions.PUNISH_USE.getPermission())); // If player doesn't have perms, the message sent.
+        setPermission(Permissions.GeneralPermissions.PUNISH_USE.getPermission()); // We set the permission that is needed for the player to run the command.
+        setPermissionMessage(Utils.getNoPermsMessage().replace("{prefix}", Messages.PREFIX).replace("{permission}", Permissions.GeneralPermissions.PUNISH_USE.getPermission())); // If player doesn't have perms, the message sent.
     }
 
     @Override
     protected void run(Player player, String[] args) {
-        checkPerms(player, Perms.GeneralPermissions.PUNISH_USE); // Secondary check, for permissions.
+        checkPerms(player, Permissions.GeneralPermissions.PUNISH_USE); // Secondary check, for permissions.
         checkArgs(1, Messages.NOT_ENOUGH_ARGS + "\n" + Messages.PUNISH_HELP); // Requires the user to have at least one argument for the command to run successfully.
 
         Player target = Bukkit.getPlayerExact(args[0]); // We set the target player.

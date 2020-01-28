@@ -2,7 +2,7 @@ package com.itsschatten.punishgui.tasks;
 
 import com.itsschatten.libs.UpdateNotifications;
 import com.itsschatten.libs.Utils;
-import com.itsschatten.punishgui.Perms;
+import com.itsschatten.punishgui.Permissions;
 import com.itsschatten.punishgui.PunishGUI;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,7 +30,7 @@ public class CheckForUpdateTask extends BukkitRunnable {
                 }
 
                 Bukkit.getOnlinePlayers().forEach(admins -> {
-                    if (admins.hasPermission(Perms.AdminPermissions.PUNISHGUI_UPDATE_NOTIFICATIONS.getPermission())) { // We check if any online players have permission, if they do we send them a message that an update is available.
+                    if (admins.hasPermission(Permissions.AdminPermissions.PUNISHGUI_UPDATE_NOTIFICATIONS.getPermission())) { // We check if any online players have permission, if they do we send them a message that an update is available.
                         Utils.tell(admins, UpdateNotifications.getUpdateMessage().replace("{currentVer}", PunishGUI.getInstance().getDescription().getVersion())
                                 .replace("{newVer}", UpdateNotifications.getLatestVersion())
                                 .replace("{link}", "https://spigotmc.org/resources/" + UpdateNotifications.getProjectId()));

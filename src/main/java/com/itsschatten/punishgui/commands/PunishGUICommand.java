@@ -2,7 +2,7 @@ package com.itsschatten.punishgui.commands;
 
 import com.itsschatten.libs.Utils;
 import com.itsschatten.libs.commandutils.UniversalCommand;
-import com.itsschatten.punishgui.Perms;
+import com.itsschatten.punishgui.Permissions;
 import com.itsschatten.punishgui.PunishGUI;
 import com.itsschatten.punishgui.configs.InventoryConfig;
 import com.itsschatten.punishgui.configs.Messages;
@@ -23,14 +23,14 @@ public class PunishGUICommand extends UniversalCommand {
 
     public PunishGUICommand() {
         super("punishgui"); // The command.
-        setPermission(Perms.GeneralPermissions.PUNISH_USE.getPermission()); // Check if the player has permission.
-        setPermissionMessage(Utils.getNoPermsMessage().replace("{prefix}", Messages.PREFIX).replace("{permission}", Perms.GeneralPermissions.PUNISH_USE.getPermission())); // Message if not.
+        setPermission(Permissions.GeneralPermissions.PUNISH_USE.getPermission()); // Check if the player has permission.
+        setPermissionMessage(Utils.getNoPermsMessage().replace("{prefix}", Messages.PREFIX).replace("{permission}", Permissions.GeneralPermissions.PUNISH_USE.getPermission())); // Message if not.
     }
 
     @Override
     protected void run(CommandSender sender, String[] args) {
 
-        checkPerms(sender, Perms.GeneralPermissions.PUNISH_USE); // Check permission again.
+        checkPerms(sender, Permissions.GeneralPermissions.PUNISH_USE); // Check permission again.
         checkArgs(1, Messages.NOT_ENOUGH_ARGS + "\n" + Messages.PUNISHGUI_HELP); // Makes sure that the command contains at least one argument.
 
         String param = args[0].toLowerCase(); // The argument of which we want to switch.
@@ -39,7 +39,7 @@ public class PunishGUICommand extends UniversalCommand {
 
             case "reload": // If reload is found,  we can reload all files or ones that are defined as param2.
             case "rl": {
-                checkPerms(sender, Perms.AdminPermissions.PUNISHGUI_RELOAD); // We check if the player has permission to run the reload command.
+                checkPerms(sender, Permissions.AdminPermissions.PUNISHGUI_RELOAD); // We check if the player has permission to run the reload command.
                 if (args.length == 1) { // Check if there are more than one argument, if not reloads all files.
                     Settings.getInstance().reload();
                     Messages.getInstance().reload();
@@ -71,7 +71,7 @@ public class PunishGUICommand extends UniversalCommand {
             // Get the version for the plugin.
             case "version":
             case "ver": {
-                checkPerms(sender, Perms.AdminPermissions.PUNISHGUI_VERSION);
+                checkPerms(sender, Permissions.AdminPermissions.PUNISHGUI_VERSION);
                 returnTell("The version of the plugin is " + PunishGUI.getInstance().getDescription().getVersion());
             }
 
@@ -94,7 +94,7 @@ public class PunishGUICommand extends UniversalCommand {
 
         if (args.length == 1) { // If the arguments are one, we return what can be tabbed.
             String arg = args[0].toLowerCase(); // Get the first argument in the command.
-            if (sender.hasPermission(Perms.GeneralPermissions.PUNISH_USE.getPermission())) { // Check if the person has permission.
+            if (sender.hasPermission(Permissions.GeneralPermissions.PUNISH_USE.getPermission())) { // Check if the person has permission.
                 TAB_COMPLETE.forEach(complete -> { // Iterate over all TAB_COMPLETE values.
                     if (complete.startsWith(arg)) {
                         tab.add(complete); // Add them to tab.
@@ -105,7 +105,7 @@ public class PunishGUICommand extends UniversalCommand {
             }
         }
 
-        if (args.length == 2 && args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl") && sender.hasPermission(Perms.AdminPermissions.PUNISHGUI_RELOAD.getPermission())) { // If the command is reload, return file names.
+        if (args.length == 2 && args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl") && sender.hasPermission(Permissions.AdminPermissions.PUNISHGUI_RELOAD.getPermission())) { // If the command is reload, return file names.
             List<String> conf = new ArrayList<>();
             CONFIGS.forEach(confs -> {
                 if (confs.startsWith(args[1])) {

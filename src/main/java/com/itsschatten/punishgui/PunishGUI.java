@@ -14,6 +14,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -79,14 +80,21 @@ public class PunishGUI extends JavaPlugin {
             new UpdateNotifications(62679) {
                 @Override
                 public void onUpdateAvailable() {
-                    Utils.log(UpdateNotifications.getUpdateMessage().replace("{currentVer}", PunishGUI.getInstance().getDescription().getVersion())
-                            .replace("{newVer}", UpdateNotifications.getLatestVersion())
-                            .replace("{link}", "https://spigotmc.org/resources/" + UpdateNotifications.getProjectId()));
+                    if (Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3].contains("1_15_R1")) {
+                        Utils.log(UpdateNotifications.getUpdateMessage().replace("{currentVer}", PunishGUI.getInstance().getDescription().getVersion())
+                                .replace("{newVer}", UpdateNotifications.getLatestVersion())
+                                .replace("{link}", "https://spigotmc.org/resources/" + UpdateNotifications.getProjectId()));
+                    } else {
+                        Utils.debugLog(Settings.DEBUG, "There is an update to the plugin available but the version is not the latest supported version. To ensure that we don't spam the user's console we won't send a message.");
+                        Utils.log("&4&l[WARNING]&c Hey! Just wanted to let you know that you are using an older version of the plugin on an unsupported version of Minecraft. If you don't wish to see this message you can disable update checking in the settings.yml.");
+                    }
                 }
             }.runTaskAsynchronously(this);
 
-            new CheckForUpdateTask().runTaskTimerAsynchronously(this, 30 * 60 * 20, 30 * 60 * 20); // Waits 30 minutes, before running. Then goes again every other 30 mins.
-            Utils.debugLog(Settings.DEBUG, "Registering CheckForUpdateTask.");
+            if (Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3].contains("1_15_R1")) {
+                new CheckForUpdateTask().runTaskTimerAsynchronously(this, 30 * 60 * 20, 30 * 60 * 20); // Wait 30 minutes and check for another update.
+                Utils.debugLog(Settings.DEBUG, "Checked for update, and set timer running.");
+            }
         }
 
         Utils.log("&c+-----------------------------------------------------+");
