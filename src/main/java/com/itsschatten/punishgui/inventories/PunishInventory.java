@@ -6,6 +6,7 @@ import com.itsschatten.punishgui.configs.InventoryConfig;
 import com.itsschatten.punishgui.configs.Messages;
 import com.itsschatten.punishgui.configs.Settings;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
@@ -13,6 +14,9 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
@@ -25,17 +29,29 @@ public class PunishInventory {
     public static Map<UUID, Player> targetMap; // We set the target map with the senders UUID so we can always get the correct target.
 
     @Getter
-    public static Map<UUID, String> reasonMap; // We set the reason map witht he senders UUID so we can always get the correct reason.
+    public static Map<UUID, String> reasonMap; // We set the reason map with the senders UUID so we can always get the correct reason.
 
     public PunishInventory() { // Defines the maps as HashMaps.
         reasonMap = new HashMap<>();
         targetMap = new HashMap<>();
     }
 
-    public void loadInv(Player opener, Player methodTarget, String reason) { // This method will load the inventory for the player and will do some conditioning checks to make sure everything is in order.
+    public void loadInv(Player opener, @NonNull Player methodTarget, String reason) { // This method will load the inventory for the player and will do some conditioning checks to make sure everything is in order.
         InventoryConfig invConfig = InventoryConfig.getInstance(); // We get the instance of the InventoryConfig so we can get the values that we need.
         Inventory inv = Bukkit.createInventory(opener, Settings.INV_SIZE, Utils.colorize(Settings.PUNISH_INV_NAME.replace("{target}", methodTarget.getName())));
-        // Creates the inventory, gets the size from the settings.yml, and the name from that file aswell.
+        // Creates the inventory, gets the size from the settings.yml, and the name from that file as well.
+
+        if (Settings.FILL_SPARE_INV_SPACES) {
+            final ItemStack fillItem = new ItemStack(Material.valueOf(Settings.FILL_ITEM), 1);
+            final ItemMeta fillItemMeta = fillItem.getItemMeta();
+
+            fillItemMeta.setDisplayName(Utils.colorize("&f"));
+            fillItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+            fillItem.setItemMeta(fillItemMeta);
+
+            for (int i = 0; i < inv.getSize(); i++)
+                inv.setItem(i, fillItem);
+        }
 
         for (String key : invConfig.getKeys(false)) { // We get all the keys that are defined in the file, we assume that all keys in this file are items.
             try {
@@ -147,7 +163,7 @@ public class PunishInventory {
 
 
     @RequiredArgsConstructor
-    private final class NotSetException extends NullPointerException { // The NotSetException, it inherits the NullPointerException.
+    private static final class NotSetException extends NullPointerException { // The NotSetException, it inherits the NullPointerException.
         private static final long serialVersionUID = 1L; // Set the unique id for the exception.
         private final String itemNotSet; // The item that is causing the error.
         private final String fieldName; // The fieldName where the error is located.
@@ -160,7 +176,7 @@ public class PunishInventory {
 
 
     @RequiredArgsConstructor
-    private final class InvalidValueException extends RuntimeException {
+    private static final class InvalidValueException extends RuntimeException {
         private static final long serialVersionUID = 1L; // Set the unique id for the exception.
         private final String invalidItem; // The item that is invalid.
         private final String fieldName;  // The field in which the invalidItem is invalid.

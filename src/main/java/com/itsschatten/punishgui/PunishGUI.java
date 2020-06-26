@@ -13,7 +13,7 @@ import com.itsschatten.punishgui.tasks.CheckForUpdateTask;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import org.bstats.bukkit.Metrics;
+import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
@@ -72,7 +72,7 @@ public class PunishGUI extends JavaPlugin {
 
         if (Settings.USE_METRICS) {
             Utils.log("&7Metrics are enabled! You can see the information collect at the following link: &chttps://bstats.org/plugin/bukkit/PunishGUI&7", "If you don't wish for this information to be collected you can disable it in the settings.yml.");
-            Metrics mets = new Metrics(this);
+            new MetricsLite(this, 5726);
         }
 
         // Starts the updater, and starts the update task.
@@ -80,7 +80,7 @@ public class PunishGUI extends JavaPlugin {
             new UpdateNotifications(62679) {
                 @Override
                 public void onUpdateAvailable() {
-                    if (Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3].contains("1_15_R1")) {
+                    if (Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3].contains("1_16_R1")) {
                         Utils.log(UpdateNotifications.getUpdateMessage().replace("{currentVer}", PunishGUI.getInstance().getDescription().getVersion())
                                 .replace("{newVer}", UpdateNotifications.getLatestVersion())
                                 .replace("{link}", "https://spigotmc.org/resources/" + UpdateNotifications.getProjectId()));
@@ -91,7 +91,7 @@ public class PunishGUI extends JavaPlugin {
                 }
             }.runTaskAsynchronously(this);
 
-            if (Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3].contains("1_15_R1")) {
+            if (Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3].contains("1_16_R1")) {
                 new CheckForUpdateTask().runTaskTimerAsynchronously(this, 30 * 60 * 20, 30 * 60 * 20); // Wait 30 minutes and check for another update.
                 Utils.debugLog(Settings.DEBUG, "Checked for update, and set timer running.");
             }
