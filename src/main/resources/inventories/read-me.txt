@@ -1,0 +1,13 @@
+Hey there! You've found yourself into the brand new inventory system. If you ever delete the default inventory file or this file, you can go to
+https://github.com/ItsSchatten/PunishGUI/tree/master/src/main/resources/inventories/ to see the default files.
+
+You can also delete the "inventories" folder and both files will be regenerated.
+
+To create a new inventory file, simply copy and then paste the inventory.yml file.
+
+If you want to create one from scratch the file must contain the following keys:
+
+permission: "yourPermissionHere"
+priority: 1 # This must be a value greater than 0. Users that have multiple permissions to use an inventory will have their highest priority inventory opened.
+name: "YourNameHereWithColorCodes Use {target} to get the target's name."
+size: 27 # 9-54 must be a multiple of 9.

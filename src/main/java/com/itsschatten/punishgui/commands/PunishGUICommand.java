@@ -4,13 +4,16 @@ import com.itsschatten.libs.Utils;
 import com.itsschatten.libs.commandutils.UniversalCommand;
 import com.itsschatten.punishgui.Permissions;
 import com.itsschatten.punishgui.PunishGUI;
-import com.itsschatten.punishgui.configs.InventoryConfig;
 import com.itsschatten.punishgui.configs.Messages;
 import com.itsschatten.punishgui.configs.Settings;
+import com.itsschatten.punishgui.inventories.PunishInventory;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,7 +21,7 @@ import java.util.List;
  */
 public class PunishGUICommand extends UniversalCommand {
 
-    private final List<String> TAB_COMPLETE = Arrays.asList("reload", "rl", "version", "ver", "help"); // Static tab completable strings.
+    private final List<String> TAB_COMPLETE = Arrays.asList("reload", "rl", "test", "testInv", "version", "ver", "help"); // Static tab completable strings.
     private final List<String> CONFIGS = Arrays.asList("settings", "messages", "inventory"); // Static strings for the configs.
 
     public PunishGUICommand() {
@@ -43,7 +46,7 @@ public class PunishGUICommand extends UniversalCommand {
                 if (args.length == 1) { // Check if there are more than one argument, if not reloads all files.
                     Settings.getInstance().reload();
                     Messages.getInstance().reload();
-                    InventoryConfig.getInstance().reload();
+                    PunishGUI.getInstance().loadInventoryConfigs();
                     returnTell(Messages.RELOAD_CONFIGS);
                 }
 
@@ -59,12 +62,28 @@ public class PunishGUICommand extends UniversalCommand {
                         returnTell(Messages.RELOAD_CONFIG_SPECIFIC.replace("{reloadedconfig}", "messages.yml"));
 
                     case "inventory":
-                        InventoryConfig.getInstance().reload(); // Reloads only the inventory file, returns a message saying that we reloaded the messages.yml.
-                        returnTell(Messages.RELOAD_CONFIG_SPECIFIC.replace("{reloadedconfig}", "inventory.yml"));
+                        PunishGUI.getInstance().loadInventoryConfigs(); // Reloads only the inventory file, returns a message saying that we reloaded the messages.yml.
+                        returnTell(Messages.RELOAD_CONFIG_SPECIFIC.replace("{reloadedconfig}", "inventories."));
 
                     default: // If nothing is found, we do nothing.
                         break;
                 }
+                break;
+            }
+
+            case "test":
+            case "testinv": {
+                checkPerms(sender, Permissions.AdminPermissions.TEST_INVENTORY);
+                checkArgs(2, Messages.NOT_ENOUGH_ARGS);
+
+                if (!(sender instanceof Player)) {
+                    returnTell("This is a player only inventory.");
+                    return;
+                }
+
+                Player player = (Player) sender;
+
+                new PunishInventory().loadInvTest(player, player, "test reason", args[1]);
                 break;
             }
 
@@ -73,11 +92,13 @@ public class PunishGUICommand extends UniversalCommand {
             case "ver": {
                 checkPerms(sender, Permissions.AdminPermissions.PUNISHGUI_VERSION);
                 returnTell("The version of the plugin is " + PunishGUI.getInstance().getDescription().getVersion());
+                break;
             }
 
             // The help message for this command. (/punishgui)
             case "help": {
                 returnTell(Messages.PUNISHGUI_HELP);
+                break;
             }
 
             // End of switch.
@@ -105,16 +126,47 @@ public class PunishGUICommand extends UniversalCommand {
             }
         }
 
-        if (args.length == 2 && args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl") && sender.hasPermission(Permissions.AdminPermissions.PUNISHGUI_RELOAD.getPermission())) { // If the command is reload, return file names.
-            List<String> conf = new ArrayList<>();
-            CONFIGS.forEach(confs -> {
-                if (confs.startsWith(args[1])) {
-                    conf.add(confs);
-                }
-            });
+        if (args.length == 2) { // If the command is reload, return file names.
 
-            return conf;
+            switch (args[0].toLowerCase()) {
+
+                case "reload":
+                case "rl": {
+                    if (sender.hasPermission(Permissions.AdminPermissions.PUNISHGUI_RELOAD.getPermission())) {
+                        List<String> conf = new ArrayList<>();
+                        CONFIGS.forEach(confs -> {
+                            if (confs.startsWith(args[1])) {
+                                conf.add(confs);
+                            }
+                        });
+                        return conf;
+                    }
+                    break;
+                }
+
+                case "test":
+                case "testinv": {
+                    if (sender.hasPermission(Permissions.AdminPermissions.TEST_INVENTORY.getPermission())) {
+
+                        final File inventoryFolder = new File(PunishGUI.getInstance().getDataFolder() + "/inventories");
+                        List<String> inventoryConfigs = new ArrayList<>();
+
+                        for (File file : inventoryFolder.listFiles((file, fileName) -> fileName.toLowerCase().endsWith(".yml"))) {
+
+                            if (file.getName().startsWith(args[1]))
+                                inventoryConfigs.add(file.getName());
+                        }
+
+                        return inventoryConfigs;
+
+                    }
+                }
+
+                default:
+                    return Collections.emptyList();
+
+            }
         }
-        return null; // If nothing is correct, return nothing.
+        return Collections.emptyList(); // If nothing is correct, return nothing.
     }
 }

@@ -1,47 +1,76 @@
 package com.itsschatten.punishgui.events;
 
 import com.itsschatten.libs.Utils;
-import com.itsschatten.punishgui.configs.InventoryConfig;
+import com.itsschatten.punishgui.PunishGUI;
 import com.itsschatten.punishgui.configs.Messages;
 import com.itsschatten.punishgui.configs.Settings;
 import com.itsschatten.punishgui.inventories.PunishInventory;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * This class contains all the fancy things that make the inventory work.
  */
-public class InventoryClickListener implements Listener {
+public class InventoryListener implements Listener {
 
-
-    public InventoryClickListener() {
+    public InventoryListener() {
     }
 
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent event) {
+        if (PunishInventory.getConfigMap() == null)
+            return;
+
+        PunishInventory.getConfigMap().remove(event.getPlayer().getUniqueId());
+    }
 
     @EventHandler
     public void onInvClick(InventoryClickEvent event) {
         Player opener = (Player) event.getWhoClicked(); // Set the player to an object so it is easier to get later.
-
-        ItemStack clicked = event.getCurrentItem(); // Set the clicked item to a object so it is easier to get later.
         InventoryType.SlotType slotType = event.getSlotType(); // Sets the slot type to an object.
-
-        InventoryConfig invConfig = InventoryConfig.getInstance(); // Get the instance of the InventoryConfig.
 
         if (slotType == InventoryType.SlotType.OUTSIDE) // If the player clicks outside of the inventory, ignore it.
             return;
 
-        if (event.getView().getTitle().contains(Utils.colorize(Settings.PUNISH_INV_NAME.replace("{target}", "")))) // The name of the clicked inventory is similar to the one defined in the config.
-            if (Objects.requireNonNull(clicked).hasItemMeta()) { // Make sure that the item has item meta.
+        if (event.getClickedInventory().getType() == opener.getInventory().getType()) {
+            return;
+        }
+
+        if (PunishGUI.getInstance().getInventoryFiles().size() == 0)
+            return;
+
+        ItemStack clicked = event.getCurrentItem(); // Set the clicked item to a object so it is easier to get later.
+
+        YamlConfiguration invConfig = PunishInventory.getConfigMap().get(opener.getUniqueId());
+
+        String name = invConfig.getString("name");
+
+        if (event.getView().getTitle().contains(Utils.colorize(name.replace("{target}", "")))) { // The name of the clicked inventory is similar to the one defined in the config.
+
+            if (event.getView().getTitle().contains(Utils.colorize("&cTest Inventory"))) {
+                event.setCancelled(true);
+                Utils.debugLog(Settings.DEBUG, "The inventory is a test version, ignoring click.");
+                return;
+            }
+
+            if (clicked == null) {
+                event.setCancelled(true);
+                Utils.debugLog(Settings.DEBUG, "Clicked item is null, ignoring click.");
+                return;
+            }
+
+            if (clicked.hasItemMeta()) { // Make sure that the item has item meta.
                 event.setCancelled(true); // Set the event to canceled so no items can be removed from the inventory.
 
                 if (Settings.DISALLOW_SHIFTCLICKING) // A check to make sure that the items cannot be pulled from the inventory when shift clicking them.
@@ -104,6 +133,7 @@ public class InventoryClickListener implements Listener {
                     }
                 }
             }
+        }
     }
 
 

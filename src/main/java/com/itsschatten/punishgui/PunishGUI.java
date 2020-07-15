@@ -4,20 +4,31 @@ import com.itsschatten.libs.UpdateNotifications;
 import com.itsschatten.libs.Utils;
 import com.itsschatten.punishgui.commands.PunishCommand;
 import com.itsschatten.punishgui.commands.PunishGUICommand;
-import com.itsschatten.punishgui.configs.InventoryConfig;
 import com.itsschatten.punishgui.configs.Messages;
 import com.itsschatten.punishgui.configs.Settings;
-import com.itsschatten.punishgui.events.InventoryClickListener;
+import com.itsschatten.punishgui.events.InventoryListener;
 import com.itsschatten.punishgui.events.PlayerJoinListener;
+import com.itsschatten.punishgui.inventories.PunishInventory;
 import com.itsschatten.punishgui.tasks.CheckForUpdateTask;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class PunishGUI extends JavaPlugin {
 
@@ -27,12 +38,17 @@ public class PunishGUI extends JavaPlugin {
     // The instance.
     private static PunishGUI instance;
 
+    @Getter
+    private Map<String, YamlConfiguration> inventoryFiles;
+
     // The onEnable method.
     @Override
     public void onEnable() {
         // Sets the instance for the Utils class and the plugin instance.
         Utils.setInstance(this);
         setInstance(this);
+
+        inventoryFiles = new HashMap<>();
 
         // Sets the header text when loading the plugin.
         PluginDescriptionFile pdf = this.getDescription();
@@ -51,7 +67,7 @@ public class PunishGUI extends JavaPlugin {
                 "");
 
         // Initializes all configuration files.
-        InventoryConfig.init();
+        loadInventoryConfigs();
         Settings.init();
         Messages.init();
         Utils.debugLog(Settings.DEBUG,
@@ -65,7 +81,7 @@ public class PunishGUI extends JavaPlugin {
 
         // Registers Events.
         PluginManager pm = this.getServer().getPluginManager();
-        pm.registerEvents(new InventoryClickListener(), this);
+        pm.registerEvents(new InventoryListener(), this);
         pm.registerEvents(new PlayerJoinListener(), this);
         Utils.debugLog(Settings.DEBUG,
                 "&7Events have been initialized.");
@@ -105,5 +121,108 @@ public class PunishGUI extends JavaPlugin {
         // Sets the instance of the plugin, and the one used in the utils to null.
         Utils.setInstance(null);
         setInstance(null);
+
+        PunishInventory.clearMaps();
     }
+
+    public void loadInventoryConfigs() {
+
+        if (getInventoryFiles().size() != 0) {
+            inventoryFiles.clear();
+        }
+
+        File inventoryFolder = new File(getDataFolder(), "/inventories");
+
+
+        if (!inventoryFolder.exists()) {
+            inventoryFolder.mkdirs();
+            File defaultInventoryFile = new File(getDataFolder() + "/inventories/inventory.yml"), defaultDescriptionFile = new File(getDataFolder() + "/inventories/read-me.txt");
+
+            try {
+                defaultInventoryFile.createNewFile();
+                defaultDescriptionFile.createNewFile();
+            } catch (IOException e) {
+                Utils.log("&c= [ ----------------------------------------------------- ] =");
+                e.printStackTrace();
+                Utils.log("&c= [ ----------------------------------------------------- ] =");
+
+            }
+
+            try (InputStream is = this.getResource("inventories/inventory.yml")) {
+                Objects.requireNonNull(is, "Inbuilt file not found: inventory.yml");
+
+                // Now copy the content of the default file to there
+                Files.copy(is, Paths.get(defaultInventoryFile.toURI()), StandardCopyOption.REPLACE_EXISTING);
+            } catch (final IOException e) {
+                Utils.log("&c= [ ----------------------------------------------------- ] =");
+                e.printStackTrace();
+                Utils.log("&c= [ ----------------------------------------------------- ] =");
+            }
+
+            try (InputStream is = this.getResource("inventories/read-me.txt")) {
+                Objects.requireNonNull(is, "Inbuilt file not found: read-me.txt");
+
+                // Now copy the content of the default file to there
+                Files.copy(is, Paths.get(defaultDescriptionFile.toURI()), StandardCopyOption.REPLACE_EXISTING);
+            } catch (final IOException e) {
+                Utils.log("&c= [ ----------------------------------------------------- ] =");
+                e.printStackTrace();
+                Utils.log("&c= [ ----------------------------------------------------- ] =");
+            }
+        }
+
+        File[] invFiles = inventoryFolder.listFiles((file, fileName) -> fileName.endsWith(".yml"));
+
+        for (File invFile : invFiles) {
+            YamlConfiguration invConfig = YamlConfiguration.loadConfiguration(invFile);
+
+            inventoryFiles.put(invFile.getName(), invConfig);
+
+            try {
+                if (!invConfig.getKeys(false).contains("permission")) {
+                    inventoryFiles.remove(invFile.getName());
+                    throw new PunishInventory.InvalidConfigurationFile(invFile.getName(), "permission");
+                }
+
+                if (!invConfig.getKeys(false).contains("priority")) {
+                    inventoryFiles.remove(invFile.getName());
+                    throw new PunishInventory.InvalidConfigurationFile(invFile.getName(), "priority");
+                }
+
+                if (invConfig.getInt("priority") == 0) {
+                    inventoryFiles.remove(invFile.getName());
+                    throw new PunishInventory.InvalidValueException(invFile.getName(), "priority", invConfig.getInt("priority") + "", "value greater than 0");
+                }
+
+                if (!invConfig.getKeys(false).contains("name")) {
+                    inventoryFiles.remove(invFile.getName());
+                    throw new PunishInventory.InvalidConfigurationFile(invFile.getName(), "name");
+                }
+
+                if (!invConfig.getKeys(false).contains("size")) {
+                    inventoryFiles.remove(invFile.getName());
+                    throw new PunishInventory.InvalidConfigurationFile(invFile.getName(), "size");
+                }
+
+                if ((invConfig.getInt("size") > 54) && !(invConfig.getInt("size") < 9) || invConfig.getInt("size") % 9 != 0) {
+                    Utils.debugLog(Settings.DEBUG, "Field 'size', in the file '" + invConfig.getName() + "' contains an inappropriate entry.");
+                    throw new PunishInventory.InvalidValueException(invFile.getName(), "size", invConfig.getInt("size") + "", "must be a whole number from 9-54 and must be a multiple of 9");
+                }
+
+            } catch (PunishInventory.InvalidConfigurationFile invalid) {
+                Utils.log("&c= [ ----------------------------------------------------- ] =", "&cAn error occurred.", invalid.getCause().toString(), "&c= [ ----------------------------------------------------- ] =");
+
+            } catch (PunishInventory.InvalidValueException ex) {
+                Utils.log("&c= [ ----------------------------------------------------- ] =", "&cAn error occurred.", ex.getCause().toString(), "&c= [ ----------------------------------------------------- ] =");
+            }
+        }
+
+        if (inventoryFiles.size() == 0) {
+            Utils.log("&cNo inventory files could be loaded, was there an error?");
+            return;
+        }
+
+        Utils.log("&7Loaded &b" + inventoryFiles.size() + "&7 inventory files.");
+    }
+
 }

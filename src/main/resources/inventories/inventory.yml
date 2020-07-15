@@ -16,9 +16,21 @@
 # as long as it matches your inventory menu size. (This can be changed in the 'settings.yml')
 # If you have questions about how to use this file, please don't hesitate to PM me (ItsSchatten)
 # on Spigot or on Discord (Schatten#4113).
-# Here is the 1.13 Material list. https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+# Here is the latest Material list. https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
 
 # It should be noted that you can not have an inventory with less than 9 spaces, an inventory of more than 54, or an inventory that contains slots that are not a multiple of nine.
+
+# This is required for the file to be considered valid, if your file lacks this or the priority key there will be an error sent in console.
+permission: punishgui.use
+
+# Users that have multiple inventory permissions (this is NOT recommended), the inventory with the highest priority will be used
+priority: 1
+
+# The name that will appear for the inventory.
+name: "You are punishing {target}"
+
+# The size of the inventory.
+size: 27
 
 permban:
   type: COMMAND # There are three types. COMMAND, CONSOLE, and NONE. Command and Console require a section named 'commands' to be a sibling to type.

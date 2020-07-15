@@ -14,9 +14,7 @@ import lombok.Setter;
 public class Settings extends SimpleConfig {
 
     // Creates global variables to use throughout the plugin.
-    public static String PUNISH_INV_NAME, FILL_ITEM, PUNISH_OPEN_SOUND, UPDATE_AVAILABLE_SOUND, DEFAULT_REASON;
-
-    public static int INV_SIZE;
+    public static String FILL_ITEM, PUNISH_OPEN_SOUND, UPDATE_AVAILABLE_SOUND, DEFAULT_REASON;
 
     public static float SOUND_PITCH;
 
@@ -53,13 +51,11 @@ public class Settings extends SimpleConfig {
 
     // Set the global variables to something.
     private void onLoad() {
-        PUNISH_INV_NAME = getString("punish-inv-name");
         FILL_ITEM = getString("fill-item");
         PUNISH_OPEN_SOUND = getString("punish-open-sound");
         UPDATE_AVAILABLE_SOUND = getString("update-available-sound");
         DEFAULT_REASON = getString("default-reason");
         USE_METRICS = (boolean) get("metrics");
-        INV_SIZE = getInt("inv-size");
         SOUND_PITCH = getInt("sound-pitch");
 
         DEBUG = (boolean) get("debug");

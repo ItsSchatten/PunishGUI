@@ -54,12 +54,6 @@ default-reason: "Something, I can't remember what though."
 # I encountered an error that would allow the player to get the item in their inventory when shift clicking items.
 disallow-shiftclicking: true
 
-# The name of the inventory.
-punish-inv-name: "&6You are punishing &e{target}" # You can only use the {target} placeholder here.
-
-# The size of the inventory. This can be a max of 54 and a minimum of 9. All entries have to be a multiple of nine.
-inv-size: 27
-
 # Should we set empty panels in the menu to something?
 fill-spare-inv-spaces: true
 

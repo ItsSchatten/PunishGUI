@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 /**
  * The PunishCommand is the main command that most staff members will use to punish players.
  * Staff members that have permission to use the command will be able to open the inventory.
- * You can set a custom reason by running the command like so: <code>/punish (PLAYERNAME) (Reason)</code>
+ * <p>You can set a custom reason by running the command like so: <code>/punish <player> (Reason)</code></p>
  */
 public class PunishCommand extends UserCommand {
 
