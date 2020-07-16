@@ -52,7 +52,15 @@ public class InventoryListener implements Listener {
 
         ItemStack clicked = event.getCurrentItem(); // Set the clicked item to a object so it is easier to get later.
 
+        if (!PunishInventory.getConfigMap().containsKey(opener.getUniqueId())) {
+            return;
+        }
+
         YamlConfiguration invConfig = PunishInventory.getConfigMap().get(opener.getUniqueId());
+
+        if (invConfig == null) {
+            return;
+        }
 
         String name = invConfig.getString("name");
 

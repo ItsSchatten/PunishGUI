@@ -37,6 +37,9 @@ public class PunishInventory {
     private static Map<UUID, YamlConfiguration> configMap;
 
     public PunishInventory() { // Defines the maps as HashMaps.
+    }
+
+    public static void loadMaps() {
         reasonMap = new HashMap<>();
         targetMap = new HashMap<>();
         configMap = new HashMap<>();

@@ -73,6 +73,8 @@ public class PunishGUI extends JavaPlugin {
         Utils.debugLog(Settings.DEBUG,
                 "&7Config files have been initialized.");
 
+        PunishInventory.loadMaps();
+
         // Registers commands.
         Utils.registerCommand(new PunishCommand());
         Utils.registerCommand(new PunishGUICommand());
@@ -132,7 +134,6 @@ public class PunishGUI extends JavaPlugin {
         }
 
         File inventoryFolder = new File(getDataFolder(), "/inventories");
-
 
         if (!inventoryFolder.exists()) {
             inventoryFolder.mkdirs();
