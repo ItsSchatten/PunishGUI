@@ -18,7 +18,7 @@ public class Settings extends SimpleConfig {
 
     public static float SOUND_PITCH;
 
-    public static boolean DEBUG, FILL_SPARE_INV_SPACES, USE_RANDOM_SOUND_PITCH, USE_SOUNDS, USE_UPDATER, PERMISSION_ITEMS, DISALLOW_SHIFTCLICKING, USE_METRICS;
+    public static boolean DEBUG, FILL_SPARE_INV_SPACES, USE_RANDOM_SOUND_PITCH, USE_SOUNDS, USE_UPDATER, PERMISSION_ITEMS, DISALLOW_SHIFTCLICKING;
 
     // Instance stuffs.
     @Getter
@@ -55,7 +55,6 @@ public class Settings extends SimpleConfig {
         PUNISH_OPEN_SOUND = getString("punish-open-sound");
         UPDATE_AVAILABLE_SOUND = getString("update-available-sound");
         DEFAULT_REASON = getString("default-reason");
-        USE_METRICS = (boolean) get("metrics");
         SOUND_PITCH = getInt("sound-pitch");
 
         DEBUG = (boolean) get("debug");
